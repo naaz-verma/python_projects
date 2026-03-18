@@ -1,6 +1,6 @@
 import streamlit as st
 from quiz_logic import generate_quiz, check_answer, calculate_score
-from utils import get_openai_client
+from utils import get_gemini_model
 
 # --- Page Config ---
 st.set_page_config(page_title="AI Quiz Master", page_icon="🧠", layout="centered")
@@ -41,13 +41,13 @@ st.title("AI Quiz Master")
 
 # --- Generate Quiz ---
 if generate_btn and topic:
-    client = get_openai_client()
-    if not client:
-        st.error("OpenAI API key not found! Please add your key to the .env file.")
+    model = get_gemini_model()
+    if not model:
+        st.error("Gemini API key not found! Please add your GEMINI_API_KEY to the .env file.")
     else:
         with st.spinner(f"Generating a {difficulty.lower()} quiz about **{topic}**..."):
             try:
-                questions = generate_quiz(client, topic, difficulty, num_questions)
+                questions = generate_quiz(model, topic, difficulty, num_questions)
                 st.session_state.quiz_data = questions
                 st.session_state.current_q = 0
                 st.session_state.user_answers = []

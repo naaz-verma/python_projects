@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import get_openai_client
+from utils import get_gemini_model
 from tutor_engine import TutorEngine
 from subjects import get_subject_names, get_subject, LEVELS, LEARNING_MODES
 
@@ -44,11 +44,11 @@ st.session_state.learning_mode = mode
 
 # Start session
 if st.sidebar.button("Start Session", type="primary", use_container_width=True):
-    client = get_openai_client()
-    if not client:
-        st.sidebar.error("API key not found! Add your key to the .env file.")
+    model = get_gemini_model()
+    if not model:
+        st.sidebar.error("Gemini API key not found! Add your GEMINI_API_KEY to the .env file.")
     else:
-        tutor = TutorEngine(client, subject, topic, level)
+        tutor = TutorEngine(model, subject, topic, level)
         with st.spinner(f"Starting {topic} session..."):
             greeting = tutor.start_session()
         st.session_state.tutor = tutor

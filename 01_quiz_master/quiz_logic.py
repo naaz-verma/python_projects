@@ -1,8 +1,8 @@
 import json
 
 
-def generate_quiz(client, topic, difficulty, num_questions):
-    """Generate a quiz using OpenAI on any topic."""
+def generate_quiz(model, topic, difficulty, num_questions):
+    """Generate a quiz using Gemini on any topic."""
     prompt = f"""Generate a quiz with exactly {num_questions} multiple-choice questions about "{topic}".
 Difficulty level: {difficulty}
 
@@ -13,6 +13,8 @@ Rules:
 - For "Medium": questions requiring some reasoning
 - For "Hard": tricky questions that test deep understanding
 - Make questions fun and engaging for teenagers
+
+You are a quiz master who creates fun, educational quizzes for teenagers. Always respond with valid JSON only.
 
 Respond ONLY with valid JSON in this exact format (no extra text):
 {{
@@ -31,16 +33,9 @@ Respond ONLY with valid JSON in this exact format (no extra text):
   ]
 }}"""
 
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are a quiz master who creates fun, educational quizzes for teenagers. Always respond with valid JSON only."},
-            {"role": "user", "content": prompt}
-        ],
-        temperature=0.7,
-    )
+    response = model.generate_content(prompt)
 
-    content = response.choices[0].message.content.strip()
+    content = response.text.strip()
     # Strip markdown code fences if present
     if content.startswith("```"):
         content = content.split("\n", 1)[1]

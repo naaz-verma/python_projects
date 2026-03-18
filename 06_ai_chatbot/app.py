@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import get_openai_client
+from utils import get_gemini_model
 from chatbot import Chatbot
 from personalities import get_personality_names, get_personality, create_custom_personality
 
@@ -36,11 +36,11 @@ else:
 
 # Start chat button
 if st.sidebar.button("Start Chat", type="primary", use_container_width=True):
-    client = get_openai_client()
-    if not client:
-        st.sidebar.error("API key not found! Add your key to the .env file.")
+    model = get_gemini_model()
+    if not model:
+        st.sidebar.error("Gemini API key not found! Add your GEMINI_API_KEY to the .env file.")
     else:
-        bot = Chatbot(client, personality)
+        bot = Chatbot(model, personality)
         st.session_state.chatbot = bot
         st.session_state.current_personality = personality
         greeting = bot.get_greeting()
@@ -107,6 +107,6 @@ else:
         # Get bot response
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
-                response = st.session_state.chatbot.chat(user_input)
+                response = st.session_state.chatbot.chat_message(user_input)
                 st.markdown(response)
                 st.session_state.chat_messages.append({"role": "assistant", "content": response})

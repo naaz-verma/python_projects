@@ -1,8 +1,5 @@
-import json
-
-
 class StoryEngine:
-    """Manages the interactive story using OpenAI."""
+    """Manages the interactive story using Gemini."""
 
     GENRES = {
         "Fantasy": "a magical fantasy world with wizards, dragons, and ancient kingdoms",
@@ -12,9 +9,9 @@ class StoryEngine:
         "Adventure": "an exciting adventure with exploration, treasure, and danger",
     }
 
-    def __init__(self, client):
-        self.client = client
-        self.history = []  # list of {"role": ..., "content": ...}
+    def __init__(self, model):
+        self.model = model
+        self.chat = None
         self.genre = None
         self.turn_count = 0
 
@@ -22,7 +19,6 @@ class StoryEngine:
         """Begin a new story in the chosen genre."""
         self.genre = genre
         self.turn_count = 0
-        self.history = []
 
         genre_desc = self.GENRES.get(genre, genre)
 
@@ -45,35 +41,23 @@ IMPORTANT: Always end your response with choices in this exact format:
 2. [Second choice description]
 3. [Third choice description]"""
 
-        self.history.append({"role": "system", "content": system_prompt})
-        self.history.append({"role": "user", "content": f"Begin the {genre} story. Set the scene and introduce {character_name}."})
+        self.chat = self.model.start_chat(history=[])
 
-        response = self._get_response()
+        response = self.chat.send_message(
+            f"{system_prompt}\n\nBegin the {genre} story. Set the scene and introduce {character_name}."
+        )
+
         self.turn_count += 1
-        return self._parse_response(response)
+        return self._parse_response(response.text)
 
     def make_choice(self, choice_text):
         """Continue the story based on the player's choice."""
-        self.history.append({
-            "role": "user",
-            "content": f"I choose: {choice_text}\n\nContinue the story based on this choice. Remember to end with 3 new choices in the ---CHOICES--- format."
-        })
-
-        response = self._get_response()
-        self.turn_count += 1
-        return self._parse_response(response)
-
-    def _get_response(self):
-        """Call OpenAI API and return the response text."""
-        response = self.client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=self.history,
-            temperature=0.9,
-            max_tokens=1000,
+        response = self.chat.send_message(
+            f"I choose: {choice_text}\n\nContinue the story based on this choice. Remember to end with 3 new choices in the ---CHOICES--- format."
         )
-        content = response.choices[0].message.content
-        self.history.append({"role": "assistant", "content": content})
-        return content
+
+        self.turn_count += 1
+        return self._parse_response(response.text)
 
     def _parse_response(self, text):
         """Split the response into story text and choices."""
@@ -97,13 +81,7 @@ IMPORTANT: Always end your response with choices in this exact format:
 
     def get_scene_description(self, story_text):
         """Generate a short image prompt from the current scene."""
-        response = self.client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "Convert the following story scene into a single concise image description (under 50 words) suitable for an AI image generator. Focus on the visual elements: setting, characters, lighting, mood. Use descriptive art style terms. Do not include text or words in the image."},
-                {"role": "user", "content": story_text[:500]}
-            ],
-            temperature=0.7,
-            max_tokens=100,
+        response = self.model.generate_content(
+            f"Convert the following story scene into a single concise image description (under 50 words) suitable for an AI image generator. Focus on the visual elements: setting, characters, lighting, mood. Use descriptive art style terms. Do not include text or words in the image.\n\n{story_text[:500]}"
         )
-        return response.choices[0].message.content.strip()
+        return response.text.strip()

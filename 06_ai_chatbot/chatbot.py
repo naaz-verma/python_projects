@@ -1,23 +1,25 @@
 class Chatbot:
     """AI chatbot with configurable personality."""
 
-    def __init__(self, client, personality):
+    def __init__(self, model, personality):
         """
         Args:
-            client: OpenAI client
+            model: Gemini GenerativeModel
             personality: dict with name, system_prompt, greeting, etc.
         """
-        self.client = client
+        self.model = model
         self.personality = personality
-        self.messages = [
-            {"role": "system", "content": personality["system_prompt"]}
-        ]
+        self.chat = model.start_chat(history=[])
+        self.system_prompt = personality["system_prompt"]
+        self.messages = []
+        # Send the system prompt as the first message to set the personality
+        self.chat.send_message(f"[System instruction] {self.system_prompt}\n\nAcknowledge that you understand your role and wait for the user's first message. Reply only with 'Ready.'")
 
     def get_greeting(self):
         """Return the personality's greeting message."""
         return self.personality.get("greeting", "Hello! How can I help you?")
 
-    def chat(self, user_message):
+    def chat_message(self, user_message):
         """
         Send a message and get a response in character.
 
@@ -29,30 +31,22 @@ class Chatbot:
         """
         self.messages.append({"role": "user", "content": user_message})
 
-        response = self.client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=self.messages,
-            temperature=0.8,
-            max_tokens=500,
-        )
+        response = self.chat.send_message(user_message)
+        reply = response.text
 
-        reply = response.choices[0].message.content
         self.messages.append({"role": "assistant", "content": reply})
-
         return reply
 
     def get_history(self):
-        """Return the conversation history (excluding system prompt)."""
-        return [m for m in self.messages if m["role"] != "system"]
+        """Return the conversation history."""
+        return self.messages
 
     def export_chat(self):
         """Export chat history as a readable string."""
         lines = []
         name = self.personality.get("name", "Bot")
         for msg in self.messages:
-            if msg["role"] == "system":
-                continue
-            elif msg["role"] == "user":
+            if msg["role"] == "user":
                 lines.append(f"You: {msg['content']}")
             else:
                 lines.append(f"{name}: {msg['content']}")

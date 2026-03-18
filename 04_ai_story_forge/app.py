@@ -1,7 +1,6 @@
 import streamlit as st
-from utils import get_openai_client
+from utils import get_gemini_model
 from story_engine import StoryEngine
-from image_gen import generate_scene_image, download_image
 
 # --- Page Config ---
 st.set_page_config(page_title="AI Story Forge", page_icon="📖", layout="centered")
@@ -15,8 +14,6 @@ if "current_scene" not in st.session_state:
     st.session_state.current_scene = None
 if "game_started" not in st.session_state:
     st.session_state.game_started = False
-if "generate_images" not in st.session_state:
-    st.session_state.generate_images = False
 
 # --- Sidebar ---
 st.sidebar.title("AI Story Forge")
@@ -25,8 +22,6 @@ st.sidebar.markdown("---")
 
 genre = st.sidebar.selectbox("Choose a genre:", list(StoryEngine.GENRES.keys()))
 character_name = st.sidebar.text_input("Your character's name:", value="Alex")
-st.session_state.generate_images = st.sidebar.checkbox("Generate scene artwork", value=False,
-                                                         help="Uses DALL-E to create images. Costs extra API credits.")
 
 start_btn = st.sidebar.button("Start New Story", type="primary", use_container_width=True)
 
@@ -42,13 +37,13 @@ st.title("AI Story Forge")
 
 # --- Start Story ---
 if start_btn:
-    client = get_openai_client()
-    if not client:
-        st.error("OpenAI API key not found! Please add your key to the .env file.")
+    model = get_gemini_model()
+    if not model:
+        st.error("Gemini API key not found! Please add your GEMINI_API_KEY to the .env file.")
     else:
         with st.spinner(f"Forging a {genre} story for {character_name}..."):
             try:
-                engine = StoryEngine(client)
+                engine = StoryEngine(model)
                 result = engine.start_story(genre, character_name)
                 st.session_state.story_engine = engine
                 st.session_state.current_scene = result
@@ -68,8 +63,7 @@ if not st.session_state.game_started:
     1. Pick a genre and name your character
     2. The AI writes an immersive opening scene
     3. Choose your path at every turn
-    4. Optionally generate AI artwork for each scene
-    5. Your story is one-of-a-kind -- no two playthroughs are alike!
+    4. Your story is one-of-a-kind -- no two playthroughs are alike!
 
     **Available genres:** Fantasy, Sci-Fi, Horror, Mystery, Adventure
     """)
@@ -86,37 +80,20 @@ elif st.session_state.current_scene:
     # Story text
     st.markdown(scene["story"])
 
-    # Image generation
-    if st.session_state.generate_images:
-        client = get_openai_client()
-        if client and st.button("Generate Scene Art", key=f"img_{engine.turn_count}"):
-            with st.spinner("Painting the scene..."):
-                try:
-                    desc = engine.get_scene_description(scene["story"])
-                    img_url = generate_scene_image(client, desc)
-                    if img_url:
-                        img_data = download_image(img_url)
-                        if img_data:
-                            st.image(img_data, caption="AI-generated scene", use_container_width=True)
-                except Exception as e:
-                    st.warning(f"Could not generate image: {e}")
-
     # Choices
     st.markdown("---")
     if scene["choices"]:
         st.markdown("### What do you do?")
         for i, choice in enumerate(scene["choices"]):
             if st.button(f"{i+1}. {choice}", key=f"choice_{engine.turn_count}_{i}", use_container_width=True):
-                client = get_openai_client()
-                if client:
-                    with st.spinner("The story continues..."):
-                        try:
-                            result = engine.make_choice(choice)
-                            st.session_state.current_scene = result
-                            st.session_state.story_log.append(result)
-                            st.rerun()
-                        except Exception as e:
-                            st.error(f"Error continuing story: {e}")
+                with st.spinner("The story continues..."):
+                    try:
+                        result = engine.make_choice(choice)
+                        st.session_state.current_scene = result
+                        st.session_state.story_log.append(result)
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"Error continuing story: {e}")
     else:
         st.markdown("**The End.**")
         st.balloons()
