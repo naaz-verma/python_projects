@@ -138,3 +138,5 @@ Python + AI APIs --> Data Science --> ML Fundamentals --> Deep Learning --> AI P
 We help school students (8th-12th grade) discover and build their tech career -- starting with excitement, ending with expertise.
 
 **Website:** [worldwithweb.com](https://worldwithweb.com)
+
+pip install streamlit google-generativeai python-dotenv plotly pandas pygame
