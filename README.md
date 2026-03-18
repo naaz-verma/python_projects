@@ -137,16 +137,4 @@ Python + AI APIs --> Data Science --> ML Fundamentals --> Deep Learning --> AI P
 
 We help school students (8th-12th grade) discover and build their tech career -- starting with excitement, ending with expertise.
 
-**Website:** [worldwithweb.com](https://worldwithweb.com)
-
-pip install streamlit google-generativeai python-dotenv plotly pandas pygame-ce
-
-$ where python
-C:\Python314\python.exe
-C:\Program Files\Python39\python.exe
-C:\Users\ASUS\AppData\Local\Microsoft\WindowsApps\python.exe
-
-ASUS@LAPTOP-0VBOLBAG MINGW64 ~/Desktop/python_projects (main)
-$ where streamlit
-C:\Users\ASUS\AppData\Roaming\Python\Python39\Scripts\streamlit.cmd
-C:\Users\ASUS\AppData\Roaming\Python\Python39\Scripts\streamlit.exe
+**Website:** [worldwithweb.com](https://worldwithweb.com) 
