@@ -79,7 +79,7 @@ with tab2:
     st.header("Crack Simulator")
     st.info("This is a safe, educational simulation. It only cracks passwords you type here -- nothing else.")
 
-    sim_password = st.text_input("Enter a short password to crack (max 4 chars for brute force):", key="crack_input")
+    sim_password = st.text_input("Enter a password to crack (up to 6 chars for brute force):", key="crack_input")
 
     col1, col2 = st.columns(2)
 
@@ -87,11 +87,19 @@ with tab2:
         st.subheader("Brute Force Attack")
         st.markdown("Tries every possible combination of characters.")
         if st.button("Run Brute Force", key="brute_btn") and sim_password:
-            if len(sim_password) > 4:
-                st.warning("Brute force demo limited to 4 characters. Try a shorter password!")
+            if len(sim_password) > 6:
+                st.warning("Brute force demo limited to 6 characters. Try a shorter password!")
             else:
-                with st.spinner("Cracking..."):
-                    result = brute_force_sim(sim_password, max_length=4)
+                progress_bar = st.progress(0, text="Starting brute force attack...")
+                status_text = st.empty()
+
+                def update_progress(attempts, current_guess):
+                    status_text.markdown(f"Trying: `{current_guess}` | Attempts: **{attempts:,}**")
+
+                result = brute_force_sim(sim_password, max_length=6, callback=update_progress)
+                progress_bar.empty()
+                status_text.empty()
+
                 if result["cracked"]:
                     st.success(f"Cracked: **{result['password']}**")
                     st.markdown(f"- Attempts: **{result['attempts']:,}**")

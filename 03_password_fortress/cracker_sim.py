@@ -13,33 +13,33 @@ def hash_password(password, algorithm="sha256"):
     return hashlib.sha256(password.encode()).hexdigest()
 
 
-def brute_force_sim(target_password, max_length=4, callback=None):
+def brute_force_sim(target_password, max_length=6, callback=None):
     """
     Simulate a brute force attack (educational).
-    Only works on short passwords for demo purposes.
+    Works on passwords up to 6 characters for demo purposes.
 
     Args:
         target_password: The password to crack
-        max_length: Maximum length to try (capped at 4 for performance)
+        max_length: Maximum length to try (capped at 6 for performance)
         callback: Function called with (attempts, current_guess) for progress updates
 
     Returns:
         dict with results
     """
     target_hash = hash_password(target_password)
-    charset = string.ascii_lowercase + string.digits
+    charset = string.ascii_lowercase + string.ascii_uppercase + string.digits + "!@#$%"
     attempts = 0
     start_time = time.time()
 
     # Cap max_length for demo safety
-    max_length = min(max_length, 4)
+    max_length = min(max_length, 6)
 
     for length in range(1, max_length + 1):
         for guess_tuple in itertools.product(charset, repeat=length):
             guess = "".join(guess_tuple)
             attempts += 1
 
-            if callback and attempts % 10000 == 0:
+            if callback and attempts % 50000 == 0:
                 callback(attempts, guess)
 
             if hash_password(guess) == target_hash:
