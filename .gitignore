@@ -10,11 +10,11 @@ build/
 
 # Virtual environment
 venv/
-env/
+.env/
 .venv/
 
 # API Keys - NEVER commit these
-# .env
+.env
 .env.local
 
 # IDE
