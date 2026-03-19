@@ -184,58 +184,6 @@ Phase 1: YOU learn     -->  Phase 2: YOU build    -->  Phase 3: YOU + AI build 1
 
 ---
 
-## Special Sessions (Biweekly, Beyond Regular Classes)
-
-Standalone sessions that complement the main curriculum. Each is self-contained -- students can miss one and not fall behind.
-
-### Tech Awareness Sessions (Discussion + Demo)
-
-| # | Session | Hook | What They Learn |
-|---|---------|------|-----------------|
-| 1 | **How the Internet Actually Works** | "What happens in 0.3 seconds between typing google.com and seeing the page?" | DNS, HTTP, servers, IP, packets -- demystify what they use 10 hours a day |
-| 2 | **How Apps Make Money** | "Instagram is free. So how is it worth $100 billion?" | SaaS, freemium, ads, data, subscriptions -- think like a founder |
-| 3 | **AI: What It Actually Is (and Isn't)** | "ChatGPT doesn't think. Let me show you what it actually does." | Tokens, probabilities, training data, hallucinations -- cut the hype |
-| 4 | **Tech Careers Nobody Tells You About** | "50+ job roles in tech. You've heard of 3." | DevOps, product, UX, security analyst, data engineer -- broaden the view |
-
-### Hands-On Skill Sessions (Workshop Style)
-
-| # | Session | Hook | What They Build |
-|---|---------|------|-----------------|
-| 5 | **Linux & The Terminal** | "Every hacker, server, and Android phone runs Linux." | Basic commands, file navigation, WSL setup |
-| 6 | **Git & GitHub: Your Code Portfolio** | "How every developer in the world shares and saves code." | GitHub account, push first project, understand commits |
-| 7 | **Web Scraping with Python** | "Pull any data from any website automatically." | Scrape live data (weather, scores) with requests + BeautifulSoup |
-| 8 | **Build a Telegram/Discord Bot** | "A bot that runs in your actual group chat." | Bot that responds to commands -- friends can use it immediately |
-| 9 | **HTML + CSS in 90 Minutes** | "Build your personal website. Today." | Portfolio site deployed free on GitHub Pages |
-| 10 | **Prompt Engineering Workshop** | "Same AI, wildly different results. The difference is how you ask." | Hands-on prompt crafting, comparing outputs, building a prompt library |
-
-### Challenge Sessions (Competitive, High Energy)
-
-| # | Session | Hook | Format |
-|---|---------|------|--------|
-| 11 | **CTF Day (Capture The Flag)** | "Real cybersecurity challenges. Crack codes, find hidden flags." | Beginner CTF from picoCTF or TryHackMe, teams compete |
-| 12 | **Mini Hackathon** | "2 hours. Build something. Anything." | Teams of 2-3, build a project, present, peers vote on winner |
-| 13 | **Debug Battle** | "I wrote broken code on purpose. First team to fix all bugs wins." | Timed debugging challenges, progressively harder |
-| 14 | **AI vs Human Quiz-Off** | "Can you write a better answer than ChatGPT?" | Students and AI both answer, class votes -- teaches critical thinking |
-
-### Suggested Biweekly Schedule (12 Sessions, ~6 Months)
-
-| Session | Topic | Type |
-|---------|-------|------|
-| 1 | How the Internet Actually Works | Awareness |
-| 2 | Linux & The Terminal | Hands-On |
-| 3 | Git & GitHub: Your Code Portfolio | Hands-On |
-| 4 | AI: What It Actually Is | Awareness |
-| 5 | CTF Day | Challenge |
-| 6 | Web Scraping with Python | Hands-On |
-| 7 | Prompt Engineering Workshop | Hands-On |
-| 8 | How Apps Make Money | Awareness |
-| 9 | Build a Telegram/Discord Bot | Hands-On |
-| 10 | HTML + CSS in 90 Minutes | Hands-On |
-| 11 | Tech Careers Nobody Tells You About | Awareness |
-| 12 | Mini Hackathon | Challenge |
-
----
-
 ## What Comes After 6 Weeks?
 
 Students who complete the course have a foundation to go deeper:
