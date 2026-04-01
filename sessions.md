@@ -23,16 +23,42 @@ All sessions operate on **3 Levels** across **2 audience segments**.
 
 **Duration:** 1-1.5 hours | **Goal:** Excite students, demo live projects, funnel into 6-week program
 
-### Structure:
+### Session Plan:
+See [Session 1: Demo & Inspiration Talk](sessions/session_01_demo_inspiration.md) for the full session plan, speaker notes, and PPT details.
 
-1. **Opening** -- "What did you use AI for today?" (interactive)
-2. **Live demos** -- Password cracker, network scanner, AI chatbot (5 projects)
-3. **The 3 levels** -- User vs Builder vs Creator
-4. **Why study still matters** -- AI amplifies, doesn't replace
-5. **Portfolio pitch** -- "Start before college, be ahead of everyone"
-6. **Interactive close** -- "What would YOU build?"
+**PPT Generator:** `create_ppt.py` (root) | **Output:** `WorldWithWeb_Demo_Session.pptx`
 
-*(Full demo session plan and PPT available in the project repo)*
+---
+
+## Session 2A: AI Trends & How AI is Used Across Fields
+
+**Type:** Common session (all students) | **Duration:** 1-1.5 hours | **Audience:** Enrolled students + new enquiries + digital marketing enquiries
+
+This session bridges inspiration and skill-building by showing how AI applies across coding, marketing, design, cybersecurity, and education. Works for mixed audiences and funnels into WorldWithWeb course enrollment.
+
+See [Session 2A: AI Trends](sessions/session_02a_ai_trends_common.md) for the full session plan.
+
+**PPT Generator:** `sessions/create_ppt_session_02a.py` | **Output:** `WorldWithWeb_AI_Trends_Session.pptx`
+
+---
+
+## Session 2B: Quiz Master Project Build (Enrolled Students)
+
+**Type:** Hands-on coding | **Duration:** 2-2.5 hours | **Prerequisite:** 15 days of Python fundamentals
+
+Step-by-step project implementation session. Students build the complete Quiz Master application from scratch -- utils.py, quiz_logic.py, and app.py with Streamlit.
+
+See [Session 2B: Quiz Master Build](sessions/session_02b_quiz_master_build.md) for the full session plan.
+
+---
+
+## Session 2C: GitHub Profile Building (Enrolled Students)
+
+**Type:** Guided workshop | **Duration:** 1-1.5 hours | **Prerequisite:** At least one completed project
+
+Students create their GitHub account, learn git fundamentals, push their first project, and set up a profile README.
+
+See [Session 2C: GitHub Profile](sessions/session_02c_github_profile.md) for the full session plan.
 
 ---
 
@@ -103,6 +129,8 @@ These run alongside the 6-week program. Self-contained -- students can miss one 
 | 10 | HTML + CSS: Build Your Website | Hands-On |
 | 11 | Tech Careers Nobody Tells You About | Awareness |
 | 12 | Mini Hackathon | Challenge |
+
+> **Note:** Sessions 2A, 2B, and 2C are one-time sessions for the current batch. The biweekly rotation above resumes after these are completed. Session S7 (Git & GitHub) can be skipped for students who attended Session 2C.
 
 ---
 

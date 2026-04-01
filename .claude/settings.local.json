@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "additionalDirectories": [
+      "c:\\Users\\naaz.verma\\personal\\python_projects"
+    ],
+    "allow": [
+      "Bash(python:*)"
+    ]
+  }
+}

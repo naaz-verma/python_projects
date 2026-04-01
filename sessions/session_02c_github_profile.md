@@ -1,0 +1,226 @@
+# Session 2C: GitHub Profile Building
+
+**Type:** Guided workshop (enrolled students only)
+**Duration:** 1-1.5 hours
+**Audience:** 2 enrolled students
+**Format:** Screen-by-screen walkthrough, each student sets up on their own machine
+**Goal:** GitHub account created, first repo pushed, Quiz Master live on GitHub, profile README set up
+**Prerequisite:** At least one completed project (Quiz Master from Session 2B)
+
+---
+
+## Session Flow
+
+### 1. Why GitHub Matters (10 min)
+
+**The pitch:**
+- "GitHub is your code portfolio. Like Instagram, but for builders."
+- Show 2-3 real GitHub profiles with green contribution graphs
+- How recruiters, college admissions, and hackathons look at GitHub
+
+**Connect back to Session 1's Portfolio Pitch:**
+- Student A says "I know Python" → no proof
+- Student B shows GitHub with 7 projects → hired/admitted
+
+**Key stats:**
+- 100+ million developers use GitHub
+- Most tech companies check GitHub before interviews
+- Hackathons and internships require a GitHub link
+
+---
+
+### 2. Account Setup (10 min)
+
+1. Go to https://github.com
+2. Sign up with email
+3. Choose a good username (professional, memorable -- this is public)
+4. Add profile photo
+5. Short bio: "Student | Learning Python & AI at WorldWithWeb"
+6. Email verification
+
+**Tips:**
+- Username: use your real name or a professional handle (not `xX_hacker_2010_Xx`)
+- Profile photo: clear face photo or a clean avatar
+- Bio: keep it short, mention what you're learning
+
+---
+
+### 3. Git Fundamentals -- Just Enough (15 min)
+
+**What is version control?**
+- Analogy: Google Docs version history, but for code
+- Every change is saved, every version is accessible, you can undo anything
+
+**Only 5 commands today** (keep it simple):
+
+| Command | What It Does | Analogy |
+|---------|-------------|---------|
+| `git init` | Start tracking a folder | "Open a new notebook" |
+| `git add .` | Stage changes | "Highlight what you want to save" |
+| `git commit -m "message"` | Save a snapshot | "Take a photo of your work" |
+| `git remote add origin <url>` | Connect to GitHub | "Link your notebook to the cloud" |
+| `git push -u origin main` | Upload to GitHub | "Upload your photo to the cloud" |
+
+**Check if Git is installed:**
+```bash
+git --version
+```
+If not installed: download from https://git-scm.com
+
+**Configure Git (one-time setup):**
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your.email@gmail.com"
+```
+
+---
+
+### 4. First Repository: Quiz Master (20 min)
+
+**On GitHub (browser):**
+1. Click "+" → "New repository"
+2. Name: `quiz-master`
+3. Description: "AI-powered quiz app that generates quizzes on any topic using Python and Gemini AI"
+4. Set to **Public**
+5. Do NOT initialize with README (we'll push from local)
+6. Create repository
+
+**On their machine (terminal):**
+
+```bash
+# Navigate to Quiz Master folder
+cd 01_quiz_master
+```
+
+**Create `.gitignore` file:**
+```
+.env
+__pycache__/
+*.pyc
+```
+
+**Critical teaching moment:** *"Remember the `.env` file with your API key? `.gitignore` tells Git to NEVER upload it. If your API key gets on GitHub, anyone can use it and you get charged."*
+
+**Push the code:**
+```bash
+git init
+git add .
+git commit -m "Add Quiz Master - AI-powered quiz app built with Python and Streamlit"
+git remote add origin https://github.com/USERNAME/quiz-master.git
+git branch -M main
+git push -u origin main
+```
+
+**Verify on GitHub:**
+- Refresh the repo page
+- See all files uploaded
+- `.env` should NOT be there (gitignore worked!)
+- Click through files -- "Your code is now live on the internet"
+
+---
+
+### 5. Write a Good README (10 min)
+
+On GitHub, click "Add file" → "Create new file" → name it `README.md`
+
+**Template for students:**
+```markdown
+# Quiz Master
+
+An AI-powered quiz app that generates quizzes on any topic using Python and Gemini AI.
+
+## What it does
+- Pick any topic -- history, science, cricket, Marvel, anything
+- Choose difficulty: Easy, Medium, or Hard
+- AI generates unique questions every time
+- Get instant scoring and explanations
+
+## Built with
+- Python
+- Streamlit (web app framework)
+- Google Gemini AI (quiz generation)
+
+## How to run
+1. Clone this repo
+2. Install dependencies: `pip install streamlit requests python-dotenv`
+3. Add your Gemini API key to a `.env` file
+4. Run: `streamlit run app.py`
+
+## Built at
+[WorldWithWeb](https://worldwithweb.com) -- Learn Tech. Build Real Things.
+```
+
+Commit the README directly on GitHub.
+
+---
+
+### 6. Profile README (15 min)
+
+**The trick:** Create a repo with the SAME name as your username → it becomes your profile page.
+
+1. On GitHub: "+" → "New repository"
+2. Name: `USERNAME` (exactly your GitHub username)
+3. Check "Add a README file"
+4. Create repository
+
+**Edit the README.md:**
+
+```markdown
+# Hi, I'm [Your Name] 👋
+
+## About Me
+- 🎓 Student | Class [X]
+- 💻 Learning Python & AI at WorldWithWeb
+- 🚀 Building real projects with code
+
+## My Projects
+| Project | Description | Link |
+|---------|-------------|------|
+| Quiz Master | AI-powered quiz app | [View](https://github.com/USERNAME/quiz-master) |
+
+## Currently Learning
+- Python fundamentals
+- AI & API integration
+- Web app development with Streamlit
+
+## Connect
+- Learning at [WorldWithWeb](https://worldwithweb.com)
+```
+
+**Verify:** Go to `github.com/USERNAME` -- see the profile README live!
+
+---
+
+### 7. Wrap-up (5 min)
+
+**Challenge for the week:**
+- Push Password Fortress as a second repo
+- Add it to the profile README projects table
+- Goal: green squares on the contribution graph!
+
+**Key message:** *"Every project you build from now on goes on GitHub. This is your portfolio growing in real-time. By the end of 6 weeks, you'll have 7 repos. Most college students have zero."*
+
+**Preview:** Next session topics in the learning journey.
+
+---
+
+## Checklist: What Each Student Should Have by End of Session
+
+- [ ] GitHub account created with profile photo and bio
+- [ ] Git installed and configured on their machine
+- [ ] Quiz Master repo pushed and public
+- [ ] `.gitignore` working (no `.env` in repo)
+- [ ] README.md on Quiz Master repo
+- [ ] Profile README created and visible on their profile page
+
+---
+
+## Common Issues & Fixes
+
+| Problem | Fix |
+|---------|-----|
+| "git is not recognized" | Install Git from https://git-scm.com, restart terminal |
+| Authentication failed on push | Use HTTPS with personal access token, or set up SSH key |
+| `.env` file got pushed | Delete it from GitHub, add `.gitignore`, recommit. Change API key immediately. |
+| "main" vs "master" branch | Use `git branch -M main` to rename |
+| Permission denied | Check repo URL is correct, check you're logged into the right account |

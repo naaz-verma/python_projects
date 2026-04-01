@@ -1,0 +1,220 @@
+# Session 2B: Quiz Master -- Project Build
+
+**Type:** Hands-on coding session (enrolled students only)
+**Duration:** 2-2.5 hours
+**Audience:** 2 enrolled students (15 days into Python, fundamentals covered)
+**Format:** Instructor-led live coding, each student builds on their own machine
+**Goal:** Build the complete Quiz Master project from scratch
+**Prerequisites:** Variables, data types, lists, dictionaries, functions, if/else, loops, basic file handling
+
+---
+
+## What Students Will Learn (New Concepts)
+
+- What an API is and how the internet communicates
+- HTTP requests (GET vs POST)
+- JSON format (and how it relates to Python dictionaries)
+- Environment variables and API key security
+- Light intro to OOP (classes, `__init__`, `self`, methods)
+- Prompt engineering -- writing instructions for AI
+- Streamlit -- turning Python into a web app
+
+---
+
+## Session Flow
+
+### Phase 1: Understanding APIs (20 min)
+
+**Explain:**
+- What is an API? Analogy: restaurant order
+  - You (browser) → Waiter (API) → Kitchen (AI model) → Waiter → You (response)
+- HTTP requests: GET (fetch data) vs POST (send data)
+- JSON format: show a sample, relate to Python dictionaries they already know
+
+**Live demo:**
+- Open browser, hit a free public API (e.g. `https://official-joke-api.appspot.com/random_joke`)
+- Show the JSON response
+- "See? That's a Python dictionary. You already know this."
+
+**Quick exercise:** Show a JSON object on screen. Students identify keys and values.
+
+---
+
+### Phase 2: Build `utils.py` -- The AI Connection (20 min)
+
+**File: `01_quiz_master/utils.py` (70 lines)**
+
+Students create this file from scratch.
+
+**Step by step:**
+
+1. **Create `.env` file** in project root
+   ```
+   GEMINI_API_KEY=your-key-here
+   ```
+   - Students go to https://aistudio.google.com/apikey to get their own key
+   - Explain: "Never hardcode API keys. Anyone who sees your code gets access to your account."
+
+2. **Write `load_api_key()` function**
+   - `from dotenv import load_dotenv` and `import os`
+   - `load_dotenv()` loads the `.env` file
+   - `os.getenv("GEMINI_API_KEY")` reads the key
+   - Discuss: why environment variables exist
+
+3. **Write `GeminiModel` class**
+   - Brief OOP intro: "A class is a blueprint. It groups related data and functions together."
+   - `__init__`: stores API key, model name, base URL
+   - `generate_content()`: builds the URL, creates the JSON payload, calls `requests.post()`, returns response
+   - Walk through each line -- no magic, just Python
+
+4. **Write `GeminiResponse` class**
+   - Simple wrapper: takes raw JSON, pulls out the text
+   - `self.text = data["candidates"][0]["content"]["parts"][0]["text"]`
+   - "This is just navigating a nested dictionary. You've done this before."
+
+5. **Test it:**
+   ```python
+   # Quick test in terminal
+   from utils import get_gemini_model
+   model = get_gemini_model()
+   response = model.generate_content("Say hello in 3 languages")
+   print(response.text)
+   ```
+   - If it prints a response, the connection works!
+
+---
+
+### Phase 3: Build `quiz_logic.py` -- The Brain (25 min)
+
+**File: `01_quiz_master/quiz_logic.py` (76 lines)**
+
+**Step by step:**
+
+1. **Write `generate_quiz()` function**
+   - Build the prompt string together (this is **prompt engineering**)
+   - Discuss: being specific, giving format examples, telling AI the rules
+   - The prompt tells AI to return JSON with questions, options, correct answer, explanation
+   - Key teaching moment: "The quality of AI output depends on the quality of your instructions"
+
+2. **Handle the response**
+   - `response.text.strip()` -- clean up whitespace
+   - Strip markdown code fences (```` ``` ````) if AI wraps the JSON
+   - `json.loads(content)` -- convert JSON string to Python dictionary
+   - "This is why knowing dictionaries matters. The entire AI response is a dictionary."
+
+3. **Write `check_answer()` function**
+   - Simple: `return user_answer == correct_answer`
+   - "Not everything needs to be complex. Simple functions are good."
+
+4. **Write `calculate_score()` function**
+   - Loop through questions, compare user answers to correct answers
+   - Build a results list with question, user answer, correct answer, explanation
+   - Calculate percentage: `round((correct / total) * 100)`
+
+5. **Test it:**
+   ```python
+   from utils import get_gemini_model
+   from quiz_logic import generate_quiz
+   model = get_gemini_model()
+   questions = generate_quiz(model, "Cricket", "Easy", 3)
+   for q in questions:
+       print(q["question"])
+   ```
+
+---
+
+### Phase 4: Build `app.py` with Streamlit -- The Face (30 min)
+
+**File: `01_quiz_master/app.py` (136 lines)**
+
+**Quick Streamlit intro:**
+- "Write Python. Get a web app. No HTML, no CSS, no JavaScript needed."
+- `streamlit run app.py` → opens in browser
+
+**Step by step:**
+
+1. **Page config and imports** (lines 1-6)
+   - `st.set_page_config()` -- page title, icon
+   - Import our own modules: `quiz_logic` and `utils`
+
+2. **Session state** (lines 8-18)
+   - "Web apps are stateless. Session state lets Streamlit remember things between clicks."
+   - Initialize: `quiz_data`, `current_q`, `user_answers`, `quiz_complete`, `score`
+
+3. **Sidebar** (lines 20-37)
+   - `st.sidebar.title()`, `st.sidebar.text_input()`, `st.sidebar.radio()`, `st.sidebar.slider()`
+   - Generate and Reset buttons
+   - "The sidebar is your control panel. The main area is your display."
+
+4. **Generate quiz handler** (lines 42-58)
+   - When button clicked: get model, call `generate_quiz()`, save to session state
+   - Error handling with `try/except`
+   - `st.rerun()` to refresh the page with new data
+
+5. **No quiz state** (lines 60-69)
+   - Show instructions when no quiz is loaded
+   - `st.markdown()` for formatted text, `st.info()` for info boxes
+
+6. **Quiz in progress** (lines 72-98)
+   - Progress bar: `st.progress()`
+   - Display question with `st.markdown()`
+   - Options as buttons in 2 columns: `st.columns(2)`
+   - Track answers, advance to next question or finish
+
+7. **Quiz complete** (lines 100-135)
+   - Score display with `st.metric()` in 3 columns
+   - Grade based on percentage
+   - Review each answer: `st.success()` for correct, `st.error()` for wrong
+   - Show explanations
+
+---
+
+### Phase 5: Run, Test, Fix (15 min)
+
+```bash
+cd 01_quiz_master
+streamlit run app.py
+```
+
+- Each student generates a quiz on a topic they like
+- Try different difficulties and number of questions
+- Debug together if anything breaks -- **this is the real learning moment**
+- "Errors are not failures. They're the AI telling you exactly what to fix."
+
+---
+
+### Wrap-up & Extensions (10 min)
+
+**Ideas for extending (homework/challenge):**
+- Add a timer for each question
+- Save scores to a file (CSV or JSON)
+- Add a leaderboard
+- Support different question types (true/false, fill-in-the-blank)
+- Add images to questions
+
+**Preview:** *"Next session we'll set up your GitHub profile and push Quiz Master as your first public project. Your portfolio starts now."*
+
+**Homework:** Generate 3 quizzes on different topics. Note any bugs or ideas for improvement.
+
+---
+
+## Files Created During This Session
+
+| Order | File | Lines | What Students Learn |
+|-------|------|-------|-------------------|
+| 1 | `.env` | 1 | API key security, environment variables |
+| 2 | `utils.py` | 70 | APIs, HTTP requests, classes (OOP), dotenv |
+| 3 | `quiz_logic.py` | 76 | Prompt engineering, JSON parsing, scoring logic |
+| 4 | `app.py` | 136 | Streamlit, session state, UI components, user interaction |
+
+---
+
+## Common Issues & Fixes
+
+| Problem | Fix |
+|---------|-----|
+| "API key not found" | Check `.env` file exists in project root, key is not `your-key-here` |
+| JSON parse error | AI sometimes returns malformed JSON -- retry, or check prompt formatting |
+| "Module not found" | Run `pip install streamlit requests python-dotenv` |
+| Streamlit won't start | Check correct directory, try `python -m streamlit run app.py` |
+| SSL warnings | The `verify=False` in requests handles this, safe for learning environment |
