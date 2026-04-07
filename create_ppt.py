@@ -1,637 +1,638 @@
-"""Generate the WorldWithWeb Demo Session PowerPoint."""
+"""
+Generate an academic-style PowerPoint presentation for:
+"Learning an Interpretable Traffic Signal Control Policy"
+by James Ault, Josiah P. Hanna, Guni Sharon (arXiv: 1912.11023v2)
+"""
 
 from pptx import Presentation
-from pptx.util import Inches, Pt, Emu
+from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+from pptx.enum.text import PP_ALIGN
 from pptx.enum.shapes import MSO_SHAPE
 
-# Brand colors
-DARK_BG = RGBColor(0x1A, 0x1A, 0x2E)
-ACCENT_BLUE = RGBColor(0x00, 0xB4, 0xD8)
-ACCENT_GREEN = RGBColor(0x00, 0xE6, 0x76)
-ACCENT_ORANGE = RGBColor(0xFF, 0x9F, 0x1C)
-ACCENT_PURPLE = RGBColor(0xBB, 0x86, 0xFC)
-ACCENT_RED = RGBColor(0xFF, 0x45, 0x6E)
-WHITE = RGBColor(0xFF, 0xFF, 0xFF)
-LIGHT_GRAY = RGBColor(0xCC, 0xCC, 0xCC)
-MID_GRAY = RGBColor(0x99, 0x99, 0x99)
-DARK_CARD = RGBColor(0x25, 0x25, 0x40)
-
-prs = Presentation()
-prs.slide_width = Inches(13.333)
-prs.slide_height = Inches(7.5)
-W = prs.slide_width
-H = prs.slide_height
+# ── Academic colour palette ──
+WHITE      = RGBColor(0xFF, 0xFF, 0xFF)
+BG_WHITE   = RGBColor(0xFB, 0xFB, 0xFB)
+BLACK      = RGBColor(0x1A, 0x1A, 0x1A)
+DARK_GRAY  = RGBColor(0x33, 0x33, 0x33)
+MID_GRAY   = RGBColor(0x66, 0x66, 0x66)
+LIGHT_GRAY = RGBColor(0xE8, 0xE8, 0xE8)
+NAVY       = RGBColor(0x1B, 0x3A, 0x5C)   # primary heading color
+BLUE       = RGBColor(0x2B, 0x6C, 0xB3)   # accent / links
+DARK_BLUE  = RGBColor(0x15, 0x2D, 0x4A)   # title bar
+RED_ACC    = RGBColor(0xC0, 0x39, 0x2B)    # for emphasis / limitations
+GREEN_ACC  = RGBColor(0x27, 0x7A, 0x3E)    # for positive results
+BOX_BG     = RGBColor(0xEE, 0xF2, 0xF7)   # light blue-gray box fill
+BOX_BG2    = RGBColor(0xFD, 0xF0, 0xE0)   # light warm box fill
+BOX_BORDER = RGBColor(0xB0, 0xC4, 0xDE)   # light steel blue
 
 
-def set_slide_bg(slide, color=DARK_BG):
+def set_slide_bg(slide, color=BG_WHITE):
     bg = slide.background
     fill = bg.fill
     fill.solid()
     fill.fore_color.rgb = color
 
 
-def add_shape(slide, left, top, width, height, fill_color, border_color=None):
-    shape = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, height)
-    shape.fill.solid()
-    shape.fill.fore_color.rgb = fill_color
-    if border_color:
-        shape.line.color.rgb = border_color
-        shape.line.width = Pt(1.5)
-    else:
-        shape.line.fill.background()
-    return shape
-
-
-def add_text_box(slide, left, top, width, height):
-    return slide.shapes.add_textbox(left, top, width, height)
-
-
-def set_text(tf, text, size=18, color=WHITE, bold=False, alignment=PP_ALIGN.LEFT, font_name="Calibri"):
-    tf.clear()
+def add_textbox(slide, left, top, width, height, text, font_size=18,
+                color=DARK_GRAY, bold=False, alignment=PP_ALIGN.LEFT,
+                font_name="Calibri"):
+    txBox = slide.shapes.add_textbox(Inches(left), Inches(top),
+                                      Inches(width), Inches(height))
+    tf = txBox.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
     p.text = text
-    p.font.size = Pt(size)
+    p.font.size = Pt(font_size)
     p.font.color.rgb = color
     p.font.bold = bold
     p.font.name = font_name
     p.alignment = alignment
-    return p
+    return tf
 
 
-def add_paragraph(tf, text, size=18, color=WHITE, bold=False, alignment=PP_ALIGN.LEFT, space_before=Pt(6), font_name="Calibri"):
-    p = tf.add_paragraph()
-    p.text = text
-    p.font.size = Pt(size)
-    p.font.color.rgb = color
-    p.font.bold = bold
-    p.font.name = font_name
-    p.alignment = alignment
-    if space_before:
-        p.space_before = space_before
-    return p
-
-
-def add_bullet_slide(slide, title_text, bullets, accent_color=ACCENT_BLUE):
-    """Helper for slides with a title and bullet points."""
-    set_slide_bg(slide)
-
-    # Accent bar
-    bar = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(0.15), H)
-    bar.fill.solid()
-    bar.fill.fore_color.rgb = accent_color
-    bar.line.fill.background()
-
-    # Title
-    tb = add_text_box(slide, Inches(0.8), Inches(0.5), Inches(11), Inches(1))
-    set_text(tb.text_frame, title_text, size=40, bold=True, color=WHITE)
-
-    # Bullets
-    tb2 = add_text_box(slide, Inches(1.2), Inches(1.8), Inches(10.5), Inches(5))
-    tf = tb2.text_frame
+def add_bullet_list(slide, left, top, width, height, items, font_size=16,
+                    color=DARK_GRAY, spacing=Pt(8), font_name="Calibri"):
+    txBox = slide.shapes.add_textbox(Inches(left), Inches(top),
+                                      Inches(width), Inches(height))
+    tf = txBox.text_frame
     tf.word_wrap = True
-    for i, bullet in enumerate(bullets):
+    for i, item in enumerate(items):
         if i == 0:
             p = tf.paragraphs[0]
         else:
             p = tf.add_paragraph()
-            p.space_before = Pt(14)
-        p.text = bullet
-        p.font.size = Pt(24)
-        p.font.color.rgb = WHITE
-        p.font.name = "Calibri"
-        p.level = 0
-
-
-# =====================================================
-# SLIDE 1 - Title
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])  # blank
-set_slide_bg(slide)
-
-# Accent line
-line = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, Inches(4.5), Inches(2.8), Inches(4.3), Pt(4))
-line.fill.solid()
-line.fill.fore_color.rgb = ACCENT_BLUE
-line.line.fill.background()
-
-tb = add_text_box(slide, Inches(1.5), Inches(1.2), Inches(10.3), Inches(1.5))
-set_text(tb.text_frame, "WorldWithWeb", size=56, bold=True, color=WHITE, alignment=PP_ALIGN.CENTER)
-
-tb2 = add_text_box(slide, Inches(1.5), Inches(3.2), Inches(10.3), Inches(1.5))
-set_text(tb2.text_frame, "Learn Tech. Build Real Things.", size=36, color=ACCENT_BLUE, alignment=PP_ALIGN.CENTER)
-
-tb3 = add_text_box(slide, Inches(1.5), Inches(5.0), Inches(10.3), Inches(1))
-set_text(tb3.text_frame, "Demo Session  |  Classes 8th - 10th", size=22, color=LIGHT_GRAY, alignment=PP_ALIGN.CENTER)
-
-
-# =====================================================
-# SLIDE 2 - Quick Question
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
-
-tb = add_text_box(slide, Inches(1.5), Inches(1.5), Inches(10.3), Inches(2))
-set_text(tb.text_frame, "Quick Question...", size=48, bold=True, color=ACCENT_GREEN, alignment=PP_ALIGN.CENTER)
-
-tb2 = add_text_box(slide, Inches(1.5), Inches(3.5), Inches(10.3), Inches(2))
-set_text(tb2.text_frame, '"What did you use AI for today?"', size=40, color=WHITE, alignment=PP_ALIGN.CENTER)
-
-tb3 = add_text_box(slide, Inches(2), Inches(5.5), Inches(9.3), Inches(1))
-set_text(tb3.text_frame, "ChatGPT for homework?    Image generators?    Gaming AI?", size=22, color=LIGHT_GRAY, alignment=PP_ALIGN.CENTER)
-
-
-# =====================================================
-# SLIDE 3 - The Gap
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
-
-tb = add_text_box(slide, Inches(1.5), Inches(0.8), Inches(10.3), Inches(1.5))
-set_text(tb.text_frame, "You're already using AI.", size=44, bold=True, color=WHITE, alignment=PP_ALIGN.CENTER)
-
-tb2 = add_text_box(slide, Inches(1.5), Inches(2.5), Inches(10.3), Inches(1.5))
-set_text(tb2.text_frame, "But there's a difference between", size=32, color=LIGHT_GRAY, alignment=PP_ALIGN.CENTER)
-
-# Two cards
-card1 = add_shape(slide, Inches(2.5), Inches(4), Inches(3.5), Inches(2), DARK_CARD, ACCENT_ORANGE)
-tb_c1 = add_text_box(slide, Inches(2.5), Inches(4.3), Inches(3.5), Inches(1.5))
-set_text(tb_c1.text_frame, "Using a tool", size=30, bold=True, color=ACCENT_ORANGE, alignment=PP_ALIGN.CENTER)
-
-card2 = add_shape(slide, Inches(7.3), Inches(4), Inches(3.5), Inches(2), DARK_CARD, ACCENT_GREEN)
-tb_c2 = add_text_box(slide, Inches(7.3), Inches(4.3), Inches(3.5), Inches(1.5))
-set_text(tb_c2.text_frame, "Building one", size=30, bold=True, color=ACCENT_GREEN, alignment=PP_ALIGN.CENTER)
-
-
-# =====================================================
-# SLIDE 4 - Live Demo Title
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
-
-tb = add_text_box(slide, Inches(1.5), Inches(2), Inches(10.3), Inches(2))
-set_text(tb.text_frame, "Let me show you what I built.", size=48, bold=True, color=WHITE, alignment=PP_ALIGN.CENTER)
-
-tb2 = add_text_box(slide, Inches(1.5), Inches(4.2), Inches(10.3), Inches(1))
-set_text(tb2.text_frame, "7 projects. All Python. All real.", size=28, color=ACCENT_BLUE, alignment=PP_ALIGN.CENTER)
-
-tb3 = add_text_box(slide, Inches(1.5), Inches(5.5), Inches(10.3), Inches(1))
-set_text(tb3.text_frame, "[ LIVE DEMO ]", size=24, color=ACCENT_GREEN, bold=True, alignment=PP_ALIGN.CENTER)
-
-
-# =====================================================
-# SLIDE 5 - Demo: Network Sentinel
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
-
-bar = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, W, Inches(0.08))
-bar.fill.solid()
-bar.fill.fore_color.rgb = ACCENT_RED
-bar.line.fill.background()
-
-tb = add_text_box(slide, Inches(0.8), Inches(0.4), Inches(3), Inches(0.6))
-set_text(tb.text_frame, "DEMO 1", size=16, color=ACCENT_RED, bold=True)
-
-tb2 = add_text_box(slide, Inches(0.8), Inches(1), Inches(11), Inches(1.2))
-set_text(tb2.text_frame, "Network Sentinel", size=44, bold=True, color=WHITE)
-
-tb3 = add_text_box(slide, Inches(0.8), Inches(2.5), Inches(10), Inches(1))
-set_text(tb3.text_frame, '"This scans your own machine for open ports --\nthe same way hackers find entry points."', size=26, color=LIGHT_GRAY)
-
-tb4 = add_text_box(slide, Inches(0.8), Inches(4.5), Inches(10), Inches(2))
-tf = tb4.text_frame
-tf.word_wrap = True
-set_text(tf, "What it does:", size=20, color=ACCENT_RED, bold=True)
-add_paragraph(tf, "Scans network ports on any machine", size=22, color=WHITE)
-add_paragraph(tf, "Shows which doors are open to attackers", size=22, color=WHITE)
-add_paragraph(tf, "Real tool. Real cybersecurity.", size=22, color=WHITE)
-
-
-# =====================================================
-# SLIDE 6 - Demo: Password Fortress
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
-
-bar = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, W, Inches(0.08))
-bar.fill.solid()
-bar.fill.fore_color.rgb = ACCENT_ORANGE
-bar.line.fill.background()
-
-tb = add_text_box(slide, Inches(0.8), Inches(0.4), Inches(3), Inches(0.6))
-set_text(tb.text_frame, "DEMO 2", size=16, color=ACCENT_ORANGE, bold=True)
-
-tb2 = add_text_box(slide, Inches(0.8), Inches(1), Inches(11), Inches(1.2))
-set_text(tb2.text_frame, "Password Fortress", size=44, bold=True, color=WHITE)
-
-tb3 = add_text_box(slide, Inches(0.8), Inches(2.5), Inches(10), Inches(1.2))
-set_text(tb3.text_frame, '"Let\'s crack a password. Right now."', size=28, color=LIGHT_GRAY)
-
-# Two cards
-card1 = add_shape(slide, Inches(1), Inches(4), Inches(4.5), Inches(2.5), DARK_CARD, ACCENT_ORANGE)
-tb_c = add_text_box(slide, Inches(1.3), Inches(4.3), Inches(4), Inches(2))
-tf = tb_c.text_frame
-set_text(tf, 'Password: "abc"', size=22, bold=True, color=ACCENT_ORANGE)
-add_paragraph(tf, "Cracked in 0.001 seconds", size=20, color=ACCENT_RED)
-add_paragraph(tf, "Your Instagram is gone.", size=18, color=LIGHT_GRAY)
-
-card2 = add_shape(slide, Inches(6.5), Inches(4), Inches(5.5), Inches(2.5), DARK_CARD, ACCENT_GREEN)
-tb_c2 = add_text_box(slide, Inches(6.8), Inches(4.3), Inches(5), Inches(2))
-tf2 = tb_c2.text_frame
-set_text(tf2, 'Password: "X#9kL2$m"', size=22, bold=True, color=ACCENT_GREEN)
-add_paragraph(tf2, "Would take years to crack", size=20, color=ACCENT_GREEN)
-add_paragraph(tf2, "This is why password strength matters.", size=18, color=LIGHT_GRAY)
-
-
-# =====================================================
-# SLIDE 7 - Demo: Quiz Master
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
-
-bar = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, W, Inches(0.08))
-bar.fill.solid()
-bar.fill.fore_color.rgb = ACCENT_BLUE
-bar.line.fill.background()
-
-tb = add_text_box(slide, Inches(0.8), Inches(0.4), Inches(3), Inches(0.6))
-set_text(tb.text_frame, "DEMO 3", size=16, color=ACCENT_BLUE, bold=True)
-
-tb2 = add_text_box(slide, Inches(0.8), Inches(1), Inches(11), Inches(1.2))
-set_text(tb2.text_frame, "AI Quiz Master", size=44, bold=True, color=WHITE)
-
-tb3 = add_text_box(slide, Inches(0.8), Inches(2.5), Inches(10), Inches(1))
-set_text(tb3.text_frame, '"Pick ANY topic. The AI generates a quiz in real-time."', size=26, color=LIGHT_GRAY)
-
-tb4 = add_text_box(slide, Inches(0.8), Inches(4), Inches(10), Inches(2))
-tf = tb4.text_frame
-set_text(tf, "What's happening behind the scenes:", size=20, color=ACCENT_BLUE, bold=True)
-add_paragraph(tf, "Python sends a prompt to an AI model", size=22, color=WHITE)
-add_paragraph(tf, "AI generates questions in JSON format", size=22, color=WHITE)
-add_paragraph(tf, "Streamlit renders it as a web app", size=22, color=WHITE)
-add_paragraph(tf, '"I built this. The AI is the brain, but I wrote the body."', size=22, color=ACCENT_GREEN, bold=True)
-
-
-# =====================================================
-# SLIDE 8 - Demo: Chatbot + Story Forge
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
-
-bar = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, W, Inches(0.08))
-bar.fill.solid()
-bar.fill.fore_color.rgb = ACCENT_PURPLE
-bar.line.fill.background()
-
-tb = add_text_box(slide, Inches(0.8), Inches(0.4), Inches(3), Inches(0.6))
-set_text(tb.text_frame, "DEMOS 4 & 5", size=16, color=ACCENT_PURPLE, bold=True)
-
-tb2 = add_text_box(slide, Inches(0.8), Inches(1), Inches(11), Inches(1.2))
-set_text(tb2.text_frame, "AI Chatbot  &  Story Forge", size=44, bold=True, color=WHITE)
-
-# Two cards side by side
-card1 = add_shape(slide, Inches(0.8), Inches(2.8), Inches(5.5), Inches(3.5), DARK_CARD, ACCENT_PURPLE)
-tb_c = add_text_box(slide, Inches(1.1), Inches(3.1), Inches(5), Inches(3))
-tf = tb_c.text_frame
-set_text(tf, "AI Chatbot", size=26, bold=True, color=ACCENT_PURPLE)
-add_paragraph(tf, '"Looks like ChatGPT?"', size=20, color=LIGHT_GRAY)
-add_paragraph(tf, "", size=10)
-add_paragraph(tf, "But I control:", size=20, color=WHITE)
-add_paragraph(tf, "  Which AI model it uses", size=20, color=WHITE)
-add_paragraph(tf, "  What personality it has", size=20, color=WHITE)
-add_paragraph(tf, "  What data it can see", size=20, color=WHITE)
-
-card2 = add_shape(slide, Inches(7), Inches(2.8), Inches(5.5), Inches(3.5), DARK_CARD, ACCENT_GREEN)
-tb_c2 = add_text_box(slide, Inches(7.3), Inches(3.1), Inches(5), Inches(3))
-tf2 = tb_c2.text_frame
-set_text(tf2, "Story Forge", size=26, bold=True, color=ACCENT_GREEN)
-add_paragraph(tf2, '"Choose your adventure."', size=20, color=LIGHT_GRAY)
-add_paragraph(tf2, "", size=10)
-add_paragraph(tf2, "You pick a genre + character", size=20, color=WHITE)
-add_paragraph(tf2, "AI writes the story in real-time", size=20, color=WHITE)
-add_paragraph(tf2, "Your choices shape the plot", size=20, color=WHITE)
-
-
-# =====================================================
-# SLIDE 9 - Behind the Curtain
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
-
-tb = add_text_box(slide, Inches(1.5), Inches(0.8), Inches(10.3), Inches(1.5))
-set_text(tb.text_frame, "Behind the curtain...", size=44, bold=True, color=ACCENT_BLUE, alignment=PP_ALIGN.CENTER)
-
-# Code-like card
-card = add_shape(slide, Inches(2), Inches(2.5), Inches(9.3), Inches(2.5), RGBColor(0x0D, 0x11, 0x17))
-tb_code = add_text_box(slide, Inches(2.5), Inches(2.7), Inches(8.5), Inches(2.2))
-tf = tb_code.text_frame
-set_text(tf, "utils.py  --  70 lines of Python", size=16, color=MID_GRAY, font_name="Consolas")
-add_paragraph(tf, "", size=8)
-add_paragraph(tf, 'url = "https://ai.googleapis.com/v1/models/gemma:generateContent"', size=16, color=ACCENT_GREEN, font_name="Consolas")
-add_paragraph(tf, 'response = requests.post(url, json=data)', size=16, color=ACCENT_GREEN, font_name="Consolas")
-add_paragraph(tf, 'return response.json()["candidates"][0]["content"]', size=16, color=ACCENT_GREEN, font_name="Consolas")
-
-tb3 = add_text_box(slide, Inches(1.5), Inches(5.5), Inches(10.3), Inches(1.5))
-set_text(tb3.text_frame, "This is ALL the code that connects to AI.\nNot magic. Python + an API + knowing how the internet works.", size=24, color=WHITE, alignment=PP_ALIGN.CENTER)
-
-
-# =====================================================
-# SLIDE 10 - Three Levels
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
-
-tb = add_text_box(slide, Inches(1.5), Inches(0.3), Inches(10.3), Inches(1))
-set_text(tb.text_frame, "Three Levels of Tech", size=44, bold=True, color=WHITE, alignment=PP_ALIGN.CENTER)
-
-# Level 1
-card1 = add_shape(slide, Inches(0.8), Inches(1.6), Inches(3.7), Inches(4.5), DARK_CARD, MID_GRAY)
-tb1 = add_text_box(slide, Inches(1.1), Inches(1.9), Inches(3.2), Inches(4))
-tf = tb1.text_frame
-set_text(tf, "Level 1", size=18, color=MID_GRAY, bold=True)
-add_paragraph(tf, "USER", size=32, bold=True, color=MID_GRAY)
-add_paragraph(tf, "", size=8)
-add_paragraph(tf, "You type prompts into ChatGPT", size=18, color=LIGHT_GRAY)
-add_paragraph(tf, "", size=8)
-add_paragraph(tf, "Everyone is here.", size=18, color=MID_GRAY)
-add_paragraph(tf, "No advantage.", size=18, color=MID_GRAY)
-
-# Level 2
-card2 = add_shape(slide, Inches(4.8), Inches(1.6), Inches(3.7), Inches(4.5), DARK_CARD, ACCENT_BLUE)
-tb2 = add_text_box(slide, Inches(5.1), Inches(1.9), Inches(3.2), Inches(4))
-tf2 = tb2.text_frame
-set_text(tf2, "Level 2", size=18, color=ACCENT_BLUE, bold=True)
-add_paragraph(tf2, "BUILDER", size=32, bold=True, color=ACCENT_BLUE)
-add_paragraph(tf2, "", size=8)
-add_paragraph(tf2, "You make AI do what YOU want", size=18, color=WHITE)
-add_paragraph(tf2, "Build apps, tools, businesses", size=18, color=WHITE)
-add_paragraph(tf2, "", size=8)
-add_paragraph(tf2, "Few people are here.", size=18, color=ACCENT_BLUE)
-add_paragraph(tf2, "This is where jobs are.", size=18, color=ACCENT_BLUE)
-
-# Level 3
-card3 = add_shape(slide, Inches(8.8), Inches(1.6), Inches(3.7), Inches(4.5), DARK_CARD, ACCENT_GREEN)
-tb3 = add_text_box(slide, Inches(9.1), Inches(1.9), Inches(3.2), Inches(4))
-tf3 = tb3.text_frame
-set_text(tf3, "Level 3", size=18, color=ACCENT_GREEN, bold=True)
-add_paragraph(tf3, "CREATOR", size=32, bold=True, color=ACCENT_GREEN)
-add_paragraph(tf3, "", size=8)
-add_paragraph(tf3, "You understand the systems behind AI", size=18, color=WHITE)
-add_paragraph(tf3, "You CREATE the next ChatGPT", size=18, color=WHITE)
-add_paragraph(tf3, "", size=8)
-add_paragraph(tf3, "Almost nobody your age", size=18, color=ACCENT_GREEN)
-add_paragraph(tf3, "is here. This is the future.", size=18, color=ACCENT_GREEN)
-
-# Bottom quote
-tb_q = add_text_box(slide, Inches(1.5), Inches(6.4), Inches(10.3), Inches(0.8))
-set_text(tb_q.text_frame, "We take you from Level 1 to Level 2. And prepare you for Level 3.", size=22, color=ACCENT_BLUE, bold=True, alignment=PP_ALIGN.CENTER)
-
-
-# =====================================================
-# SLIDE 11 - Why Still Study?
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
-
-tb = add_text_box(slide, Inches(1.5), Inches(0.5), Inches(10.3), Inches(1))
-set_text(tb.text_frame, '"But AI can write code. Why learn?"', size=44, bold=True, color=ACCENT_ORANGE, alignment=PP_ALIGN.CENTER)
-
-quotes = [
-    ("Calculators exist. We still learn math.", WHITE),
-    ("You need to know WHEN to use AI,", WHITE),
-    ("WHETHER the answer is right,", WHITE),
-    ("and WHAT to ask.", WHITE),
-    ("", WHITE),
-    ("If you can't tell whether AI's output is correct,", LIGHT_GRAY),
-    ("secure, or efficient --", LIGHT_GRAY),
-    ("", LIGHT_GRAY),
-    ("you're not the builder. You're the passenger.", ACCENT_ORANGE),
+        p.text = item
+        p.font.size = Pt(font_size)
+        p.font.color.rgb = color
+        p.font.name = font_name
+        p.space_after = spacing
+    return tf
+
+
+def add_bar(slide, left, top, width, height, color=NAVY):
+    shape = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE,
+                                    Inches(left), Inches(top),
+                                    Inches(width), Inches(height))
+    shape.fill.solid()
+    shape.fill.fore_color.rgb = color
+    shape.line.fill.background()
+    return shape
+
+
+def add_box(slide, left, top, width, height, text, font_size=14,
+            fill_color=BOX_BG, text_color=DARK_GRAY, border_color=BOX_BORDER,
+            alignment=PP_ALIGN.LEFT):
+    shape = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE,
+                                    Inches(left), Inches(top),
+                                    Inches(width), Inches(height))
+    shape.fill.solid()
+    shape.fill.fore_color.rgb = fill_color
+    shape.line.color.rgb = border_color
+    shape.line.width = Pt(1)
+
+    tf = shape.text_frame
+    tf.word_wrap = True
+    tf.paragraphs[0].alignment = alignment
+    p = tf.paragraphs[0]
+    p.text = text
+    p.font.size = Pt(font_size)
+    p.font.color.rgb = text_color
+    p.font.name = "Calibri"
+    return shape
+
+
+def slide_header(slide, title, subtitle=None):
+    """Add standard academic slide header with navy bar and title."""
+    set_slide_bg(slide)
+    add_bar(slide, 0, 0, 13.333, 0.9, DARK_BLUE)
+    add_textbox(slide, 0.6, 0.15, 12, 0.6, title,
+                font_size=28, color=WHITE, bold=True)
+    if subtitle:
+        add_textbox(slide, 0.6, 0.55, 12, 0.35, subtitle,
+                    font_size=14, color=RGBColor(0xBB, 0xCC, 0xDD))
+    # thin accent line below header
+    add_bar(slide, 0, 0.9, 13.333, 0.04, BLUE)
+
+
+prs = Presentation()
+prs.slide_width = Inches(13.333)
+prs.slide_height = Inches(7.5)
+blank = prs.slide_layouts[6]
+
+# ═══════════════════════════════════════════════
+# SLIDE 1 — Title
+# ═══════════════════════════════════════════════
+s = prs.slides.add_slide(blank)
+set_slide_bg(s, WHITE)
+add_bar(s, 0, 0, 13.333, 2.8, DARK_BLUE)
+
+add_textbox(s, 1.5, 0.6, 10.3, 1.2,
+            "Learning an Interpretable\nTraffic Signal Control Policy",
+            font_size=36, color=WHITE, bold=True, alignment=PP_ALIGN.CENTER)
+
+add_bar(s, 5.5, 2.05, 2.3, 0.03, RGBColor(0xBB, 0xCC, 0xDD))
+
+add_textbox(s, 1.5, 2.2, 10.3, 0.5,
+            "James Ault  |  Josiah P. Hanna  |  Guni Sharon",
+            font_size=18, color=RGBColor(0xCC, 0xDD, 0xEE), alignment=PP_ALIGN.CENTER)
+
+add_textbox(s, 1.5, 3.4, 10.3, 0.5,
+            "arXiv: 1912.11023v2  |  2020",
+            font_size=16, color=MID_GRAY, alignment=PP_ALIGN.CENTER)
+
+add_textbox(s, 1.5, 4.5, 10.3, 0.5,
+            "Presented by: Naaz Verma",
+            font_size=20, color=NAVY, bold=True, alignment=PP_ALIGN.CENTER)
+
+add_textbox(s, 1.5, 5.2, 10.3, 0.5,
+            "Assignment Presentation",
+            font_size=15, color=MID_GRAY, alignment=PP_ALIGN.CENTER)
+
+# Footer line
+add_bar(s, 0, 7.2, 13.333, 0.03, BLUE)
+
+# ═══════════════════════════════════════════════
+# SLIDE 2 — Outline
+# ═══════════════════════════════════════════════
+s = prs.slides.add_slide(blank)
+slide_header(s, "Presentation Outline")
+
+agenda = [
+    "1.   Motivation & Objective of the Paper",
+    "2.   Key Techniques & Algorithmic Approaches",
+    "3.   Experimental Setup",
+    "4.   Main Results & Interpretation",
+    "5.   Limitations & Future Scope",
+    "6.   Conclusion & Key Takeaways",
+]
+add_bullet_list(s, 1.2, 1.5, 8, 5, agenda, font_size=20, color=DARK_GRAY, spacing=Pt(18))
+
+# ═══════════════════════════════════════════════
+# SLIDE 3 — Motivation & Problem
+# ═══════════════════════════════════════════════
+s = prs.slides.add_slide(blank)
+slide_header(s, "Motivation & Problem Statement")
+
+add_textbox(s, 0.6, 1.2, 6.2, 0.5, "The Interpretability Gap in Traffic Signal Control",
+            font_size=18, color=NAVY, bold=True)
+
+items = [
+    "\u2022  Traffic congestion costs billions annually in fuel, time, and emissions",
+    "\u2022  Reinforcement Learning with DNNs can reduce vehicle delay by up to 73%",
+    "\u2022  However, DNNs are black boxes \u2014 decisions cannot be explained",
+    "\u2022  Government agencies require interpretable, auditable controllers",
+    "\u2022  Current RL approaches are impractical for real-world deployment",
+]
+add_bullet_list(s, 0.8, 1.8, 6.2, 3.5, items, font_size=15, color=DARK_GRAY, spacing=Pt(10))
+
+add_box(s, 7.4, 1.2, 5.3, 2.3,
+        "Core Research Question\n\n"
+        "Can we design traffic signal controllers\n"
+        "that are BOTH high-performing AND\n"
+        "human-interpretable?\n\n"
+        "Performance (DNN)  vs.  Interpretability",
+        font_size=15, fill_color=BOX_BG, text_color=DARK_GRAY,
+        border_color=BLUE, alignment=PP_ALIGN.CENTER)
+
+add_box(s, 7.4, 3.8, 5.3, 3.0,
+        "Why Interpretability is Non-Negotiable\n\n"
+        "\u2022  Liability: Who is responsible if an accident occurs?\n"
+        "\u2022  Regulation: Agencies must approve control logic\n"
+        "\u2022  Trust: Engineers need to understand & tune the system\n"
+        "\u2022  Safety: Black-box failures can be catastrophic\n\n"
+        "Traffic signals are safety-critical infrastructure.",
+        font_size=14, fill_color=BOX_BG2, text_color=DARK_GRAY,
+        border_color=RGBColor(0xD4, 0xA0, 0x60))
+
+# ═══════════════════════════════════════════════
+# SLIDE 4 — Objective & Contributions
+# ═══════════════════════════════════════════════
+s = prs.slides.add_slide(blank)
+slide_header(s, "Paper Objective & Contributions")
+
+add_box(s, 0.6, 1.3, 12.1, 1.0,
+        "Objective: Design interpretable, regulatable control policies for traffic signals that match "
+        "deep neural network performance while remaining fully human-understandable and tunable.",
+        font_size=16, fill_color=BOX_BG, text_color=NAVY,
+        border_color=NAVY, alignment=PP_ALIGN.CENTER)
+
+add_textbox(s, 0.6, 2.6, 5, 0.5, "Six Key Contributions:",
+            font_size=18, color=NAVY, bold=True)
+
+contributions = [
+    "1.  Formally define a \"regulatable\" control function for signal control",
+    "2.  Compare regulatable functions against DNN-based policies",
+    "3.  Study three optimization methods: CMA-ES, PPO, Deep Q-Learning",
+    "4.  Develop three novel DQN variants using regulatable functions",
+    "      \u2192 DRQ, DRSQ, DRHQ (core technical contribution)",
+    "5.  Evaluate on simulations of real intersections with observed traffic demand",
+    "6.  Compare against deployed actuated controllers (practical baseline)",
+]
+add_bullet_list(s, 0.8, 3.2, 11.5, 4, contributions, font_size=15, color=DARK_GRAY, spacing=Pt(9))
+
+# ═══════════════════════════════════════════════
+# SLIDE 5 — Regulatable Control Function
+# ═══════════════════════════════════════════════
+s = prs.slides.add_slide(blank)
+slide_header(s, "Key Concept: Regulatable Control Function")
+
+add_box(s, 0.6, 1.3, 5.8, 2.2,
+        "Formal Definition\n\n"
+        "A precedence function g(s, \u03a6; \u03b8) is regulatable\n"
+        "if for every state variable s[i]:\n\n"
+        "    \u2202g/\u2202s[i]  \u2265  0   for all states,   OR\n"
+        "    \u2202g/\u2202s[i]  \u2264  0   for all states\n\n"
+        "i.e., monotonic input-output relationships.",
+        font_size=14, fill_color=BOX_BG, text_color=DARK_GRAY, border_color=NAVY)
+
+add_box(s, 6.8, 1.3, 5.9, 2.2,
+        "Practical Intuition\n\n"
+        "\"Green was given to Phase 4 BECAUSE\n"
+        "stopped Southbound vehicles increased\n"
+        "while Eastbound queue decreased.\"\n\n"
+        "Every decision has a human-readable reason.\n"
+        "Engineers can adjust individual weights.",
+        font_size=14, fill_color=BOX_BG2, text_color=DARK_GRAY,
+        border_color=RGBColor(0xD4, 0xA0, 0x60))
+
+add_textbox(s, 0.6, 3.9, 5.8, 0.4, "State Variables (per traffic phase):",
+            font_size=16, color=NAVY, bold=True)
+
+state_vars = [
+    "1.  Stopped vehicles count",
+    "2.  Approaching vehicles count",
+    "3.  Cumulative stopped time",
+    "4.  Average stopped time",
+    "5.  Average queue length (stopped vehicles / lane count)",
+    "6.  Average approaching vehicle speed",
+]
+add_bullet_list(s, 0.8, 4.4, 5.5, 2.5, state_vars, font_size=14, color=DARK_GRAY, spacing=Pt(5))
+
+add_textbox(s, 6.8, 3.9, 5.9, 0.4, "Polynomial Precedence Function:",
+            font_size=16, color=NAVY, bold=True)
+
+add_box(s, 6.8, 4.4, 5.9, 1.0,
+        "g(s, \u03a6; \u03b8') = \u03a3\u03c6\u2208\u03a6 \u03a3i=1..6  (wi \u00b7 s[i])^pi   \u00d7   \u03a3j=1..4  (w'j \u00b7 fj)^p'j",
+        font_size=14, fill_color=BOX_BG, text_color=NAVY,
+        border_color=BLUE, alignment=PP_ALIGN.CENTER)
+
+props = [
+    "\u2022  Weights (w) and exponents (p) per state variable per phase",
+    "\u2022  For 8-phase intersection: 256 total tunable parameters",
+    "\u2022  Proven regulatable via Lemma 1 (monotonic partial derivatives)",
+]
+add_bullet_list(s, 7.0, 5.6, 5.5, 1.5, props, font_size=13, color=MID_GRAY, spacing=Pt(5))
+
+# ═══════════════════════════════════════════════
+# SLIDE 6 — Three DQN Variants
+# ═══════════════════════════════════════════════
+s = prs.slides.add_slide(blank)
+slide_header(s, "Algorithmic Approach: Three Deep Regulatable Q-Learning Variants")
+
+add_box(s, 0.6, 1.2, 12.1, 0.7,
+        "Core Idea:  Train a powerful DQN (black-box) first, then train the interpretable function G to imitate it.",
+        font_size=16, fill_color=BOX_BG, text_color=NAVY,
+        border_color=NAVY, alignment=PP_ALIGN.CENTER)
+
+# DRQ
+add_box(s, 0.6, 2.2, 3.8, 3.6,
+        "DRQ\nDeep Regulatable Q-Learning\n\n"
+        "Goal: G(s,a) = Q(s,a)\n"
+        "(Match exact Q-values)\n\n"
+        "Loss: Squared error\n"
+        "(y - G(s,a;\u03b8))\u00b2\n\n"
+        "Problem: Polynomial cannot\nreplicate full DNN capacity\n\n"
+        "Result: Worst performer",
+        font_size=13, fill_color=RGBColor(0xFC, 0xEB, 0xEB),
+        text_color=DARK_GRAY, border_color=RED_ACC,
+        alignment=PP_ALIGN.CENTER)
+
+# DRSQ
+add_box(s, 4.8, 2.2, 3.8, 3.6,
+        "DRSQ\nDeep Regulatable Softmax Q\n\n"
+        "Goal: G(s,\u00b7) \u221d Q(s,\u00b7)\n"
+        "(Match relative ranking)\n\n"
+        "Loss: Cross-entropy between\nsoftmax(Q) and softmax(G)\n\n"
+        "Insight: Proportional\nequivalence is sufficient\n\n"
+        "Result: Good performer",
+        font_size=13, fill_color=BOX_BG2,
+        text_color=DARK_GRAY, border_color=RGBColor(0xD4, 0xA0, 0x60),
+        alignment=PP_ALIGN.CENTER)
+
+# DRHQ
+add_box(s, 9.0, 2.2, 3.8, 3.6,
+        "DRHQ  (Best)\nDeep Regulatable Hardmax Q\n\n"
+        "Goal: argmax G = argmax Q\n"
+        "(Match only the winning action)\n\n"
+        "Loss: Cross-entropy between\none-hot(argmax Q) & softmax(G)\n\n"
+        "Insight: Maximum flexibility,\nonly policy equivalence needed\n\n"
+        "Result: Best performer",
+        font_size=13, fill_color=RGBColor(0xE8, 0xF5, 0xEB),
+        text_color=DARK_GRAY, border_color=GREEN_ACC,
+        alignment=PP_ALIGN.CENTER)
+
+# Progression arrow
+add_box(s, 0.6, 6.1, 12.1, 0.6,
+        "Progression:   Match exact values (hard)   \u2192   Match rankings (easier)   \u2192   Match winner only (easiest & best)",
+        font_size=15, fill_color=BOX_BG, text_color=NAVY,
+        border_color=BLUE, alignment=PP_ALIGN.CENTER)
+
+# ═══════════════════════════════════════════════
+# SLIDE 7 — CMA-ES & PPO
+# ═══════════════════════════════════════════════
+s = prs.slides.add_slide(blank)
+slide_header(s, "Alternative Optimization Methods: CMA-ES & PPO")
+
+# CMA-ES
+add_textbox(s, 0.6, 1.2, 5.8, 0.4,
+            "CMA-ES (Covariance Matrix Adaptation Evolution Strategy)",
+            font_size=16, color=NAVY, bold=True)
+
+cma_items = [
+    "\u2022  Type: Evolutionary / black-box optimization",
+    "\u2022  Few hyperparameters; handles continuous ranges",
+    "\u2022  Achieves near-DQN performance (validates function design)",
+    "",
+    "Limitations:",
+    "\u2022  Needs 24 episodes per parameter update (very slow)",
+    "\u2022  Erratic exploration \u2014 unsafe during tuning",
+    "\u2022  ~4,000 episodes to stabilize (11 years of simulated traffic)",
+    "\u2022  Impractical for online / real-world deployment",
+]
+add_bullet_list(s, 0.8, 1.7, 5.5, 4.5, cma_items, font_size=14, color=DARK_GRAY, spacing=Pt(6))
+
+# PPO
+add_textbox(s, 7.0, 1.2, 5.8, 0.4,
+            "PPO (Proximal Policy Optimization)",
+            font_size=16, color=NAVY, bold=True)
+
+ppo_items = [
+    "\u2022  Type: Policy gradient method",
+    "\u2022  Smooth, monotonic learning curves",
+    "\u2022  Bounded gradient steps ensure safe exploration",
+    "",
+    "Limitations:",
+    "\u2022  Gets stuck in local optima (over-regularized)",
+    "\u2022  Suboptimal final convergence",
+    "\u2022  Cannot beat actuated control under high demand",
+    "\u2022  Insufficient for this domain despite safety benefits",
+]
+add_bullet_list(s, 7.2, 1.7, 5.5, 4.5, ppo_items, font_size=14, color=DARK_GRAY, spacing=Pt(6))
+
+add_box(s, 0.6, 6.1, 12.1, 0.7,
+        "Conclusion: Neither CMA-ES nor PPO are suitable for practical deployment. "
+        "The DQN-based variants (especially DRHQ) are the most effective approach.",
+        font_size=15, fill_color=BOX_BG, text_color=NAVY,
+        border_color=NAVY, alignment=PP_ALIGN.CENTER)
+
+# ═══════════════════════════════════════════════
+# SLIDE 8 — Experimental Setup
+# ═══════════════════════════════════════════════
+s = prs.slides.add_slide(blank)
+slide_header(s, "Experimental Setup")
+
+# Left
+add_textbox(s, 0.6, 1.2, 5.8, 0.4, "Simulation Environment",
+            font_size=17, color=NAVY, bold=True)
+env_items = [
+    "\u2022  Simulator: SUMO (Simulation of Urban Mobility)",
+    "\u2022  Real traffic data from Utah DOT (2,092 intersections)",
+    "\u2022  Test site: State St & E 4500 S, Murray, Utah",
+    "\u2022  10 traffic phases, 11 non-conflicting phase pairs",
+    "\u2022  >50,000 vehicles/day, peak rate: 95 cars/min",
+    "\u2022  352 tunable parameters for regulatable policy",
+]
+add_bullet_list(s, 0.8, 1.7, 5.8, 3, env_items, font_size=14, color=DARK_GRAY, spacing=Pt(7))
+
+# Right - demand profiles
+add_textbox(s, 7.0, 1.2, 5.8, 0.4, "Traffic Demand Profiles",
+            font_size=17, color=NAVY, bold=True)
+
+add_box(s, 7.0, 1.7, 5.7, 0.55,
+        "Low:      45,112 vehicles  |  1.04 v/sec  |  Wed May 1, 2019",
+        font_size=13, fill_color=RGBColor(0xE8, 0xF5, 0xEB), text_color=DARK_GRAY,
+        border_color=GREEN_ACC)
+add_box(s, 7.0, 2.35, 5.7, 0.55,
+        "Medium:  51,298 vehicles  |  1.19 v/sec  |  Mon May 6, 2019",
+        font_size=13, fill_color=BOX_BG2, text_color=DARK_GRAY,
+        border_color=RGBColor(0xD4, 0xA0, 0x60))
+add_box(s, 7.0, 3.0, 5.7, 0.55,
+        "High:     61,261 vehicles  |  1.42 v/sec  |  Fri Jun 21, 2019",
+        font_size=13, fill_color=RGBColor(0xFC, 0xEB, 0xEB), text_color=DARK_GRAY,
+        border_color=RED_ACC)
+
+# DQN params
+add_textbox(s, 7.0, 3.9, 5.8, 0.4, "DQN Hyperparameters",
+            font_size=17, color=NAVY, bold=True)
+dqn_items = [
+    "\u2022  3 hidden layers, 64 units each",
+    "\u2022  Replay buffer: 100,000 transitions",
+    "\u2022  Minibatch size: 32  |  Optimizer: Adam",
+    "\u2022  Epsilon-greedy: 0.05 \u2192 0 after 20 episodes",
+    "\u2022  Discount factor: 0.8 (low/med), 0.9 (high)",
+]
+add_bullet_list(s, 7.2, 4.4, 5.5, 2.5, dqn_items, font_size=13, color=DARK_GRAY, spacing=Pt(5))
+
+# Baseline
+add_textbox(s, 0.6, 4.6, 5.8, 0.4, "Baseline: Actuated Signal Controller",
+            font_size=17, color=NAVY, bold=True)
+bl_items = [
+    "\u2022  SUMO\u2019s actuated controller (used in real deployments)",
+    "\u2022  Phases in fixed order (protected lefts \u2192 through traffic)",
+    "\u2022  Maximum green time: 300 seconds",
+    "\u2022  This is what real intersections use today",
+]
+add_bullet_list(s, 0.8, 5.1, 5.8, 2, bl_items, font_size=13, color=DARK_GRAY, spacing=Pt(5))
+
+# ═══════════════════════════════════════════════
+# SLIDE 9 — Main Results
+# ═══════════════════════════════════════════════
+s = prs.slides.add_slide(blank)
+slide_header(s, "Main Results: Average Vehicle Delay Comparison")
+
+add_box(s, 0.6, 1.2, 12.1, 0.55,
+        "Average Vehicle Delay (seconds)  \u2014  Lower is Better",
+        font_size=16, fill_color=NAVY, text_color=WHITE,
+        border_color=NAVY, alignment=PP_ALIGN.CENTER)
+
+# Table header
+headers = "Method                         Low Demand        Medium Demand       High Demand"
+add_textbox(s, 0.8, 1.95, 11.5, 0.35, headers,
+            font_size=14, color=NAVY, bold=True, font_name="Consolas")
+
+# Separator
+add_bar(s, 0.8, 2.3, 11.5, 0.02, LIGHT_GRAY)
+
+rows_data = [
+    ("Actuated (Baseline)            ~60 sec            ~70 sec              ~95 sec", DARK_GRAY),
+    ("CMA-ES                         ~50 sec            ~58 sec              ~85 sec", DARK_GRAY),
+    ("PPO                            ~55 sec            ~65 sec              ~95 sec  (fails in high)", RED_ACC),
+    ("DRQ                            Poor               Poor                 Poor", RED_ACC),
+    ("DRSQ                           ~52 sec            ~62 sec              ~87 sec", DARK_GRAY),
+    ("DRHQ  (Best Interpretable)     ~50 sec            ~60 sec              ~85 sec", GREEN_ACC),
+    ("DQN   (Black-box Upper Bound)  ~48 sec            ~57 sec              ~82 sec", BLUE),
 ]
 
-tb2 = add_text_box(slide, Inches(2), Inches(2.2), Inches(9.3), Inches(4.5))
-tf = tb2.text_frame
-tf.word_wrap = True
-for i, (text, color) in enumerate(quotes):
-    if i == 0:
-        set_text(tf, text, size=26, color=color)
-    else:
-        add_paragraph(tf, text, size=26, color=color, space_before=Pt(4))
+for i, (row, color) in enumerate(rows_data):
+    y = 2.45 + i * 0.4
+    add_textbox(s, 0.8, y, 11.5, 0.35, row,
+                font_size=13, color=color, font_name="Consolas")
+    if i < len(rows_data) - 1:
+        add_bar(s, 0.8, y + 0.38, 11.5, 0.01, LIGHT_GRAY)
 
+# Key finding
+add_box(s, 0.6, 5.5, 12.1, 1.2,
+        "Key Finding:  DRHQ achieves up to 19.4% reduced vehicle delay compared to deployed actuated controllers,\n"
+        "while remaining fully interpretable.  The gap vs. the black-box DQN is only 1\u20133 seconds.",
+        font_size=16, fill_color=RGBColor(0xE8, 0xF5, 0xEB), text_color=DARK_GRAY,
+        border_color=GREEN_ACC, alignment=PP_ALIGN.CENTER)
 
-# =====================================================
-# SLIDE 12 - The Real Talk
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
+# ═══════════════════════════════════════════════
+# SLIDE 10 — Interpretation of Results
+# ═══════════════════════════════════════════════
+s = prs.slides.add_slide(blank)
+slide_header(s, "Interpretation of Results")
 
-tb = add_text_box(slide, Inches(1.5), Inches(0.5), Inches(10.3), Inches(1))
-set_text(tb.text_frame, "Let's address the hype.", size=40, bold=True, color=WHITE, alignment=PP_ALIGN.CENTER)
-
-rows = [
-    ('"AI will replace coders"', "AI replaces coders who can't think.\nIt amplifies coders who can.", ACCENT_RED),
-    ('"I can just use ChatGPT"', "Sure. So can everyone else.\nWhat's YOUR edge?", ACCENT_ORANGE),
-    ('"School math is useless"', "The password cracker you just saw?\nThat's combinatorics from your math class.", ACCENT_BLUE),
-    ('"I want to be a hacker"', "Great. Hackers are the best learners\nI know. Let's channel that.", ACCENT_GREEN),
+add_textbox(s, 0.6, 1.2, 5.8, 0.4, "Why DRHQ Works Best",
+            font_size=17, color=NAVY, bold=True)
+drhq_items = [
+    "\u2022  Only needs to match which action wins, not exact Q-values",
+    "\u2022  Gives maximum flexibility to the polynomial function",
+    "\u2022  Hardmax formulation directly targets policy equivalence",
+    "\u2022  Converges within a single episode for low/medium demand",
+    "\u2022  \"Less is more\": easier target = better practical fit",
 ]
+add_bullet_list(s, 0.8, 1.7, 5.8, 3, drhq_items, font_size=15, color=DARK_GRAY, spacing=Pt(10))
 
-for i, (say, respond, color) in enumerate(rows):
-    y = Inches(1.8) + Inches(1.35) * i
-    card = add_shape(slide, Inches(0.8), y, Inches(11.7), Inches(1.15), DARK_CARD, color)
-    tb_s = add_text_box(slide, Inches(1.2), y + Emu(Inches(0.15).emu), Inches(4), Inches(0.9))
-    set_text(tb_s.text_frame, say, size=18, color=color, bold=True)
-    tb_r = add_text_box(slide, Inches(5.5), y + Emu(Inches(0.1).emu), Inches(6.5), Inches(0.95))
-    set_text(tb_r.text_frame, respond, size=18, color=WHITE)
-
-
-# =====================================================
-# SLIDE 13 - Portfolio Pitch
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
-
-tb = add_text_box(slide, Inches(1.5), Inches(0.5), Inches(10.3), Inches(1.2))
-set_text(tb.text_frame, "Start Your Portfolio Now.", size=44, bold=True, color=WHITE, alignment=PP_ALIGN.CENTER)
-
-tb_sub = add_text_box(slide, Inches(1.5), Inches(1.5), Inches(10.3), Inches(1))
-set_text(tb_sub.text_frame, "In 8th-10th grade, nobody expects you to have one.\nThat's exactly why having one is powerful.", size=24, color=LIGHT_GRAY, alignment=PP_ALIGN.CENTER)
-
-# Two comparison cards
-card1 = add_shape(slide, Inches(1.5), Inches(3.3), Inches(4.8), Inches(3), DARK_CARD, MID_GRAY)
-tb_c1 = add_text_box(slide, Inches(1.8), Inches(3.6), Inches(4.3), Inches(2.5))
-tf = tb_c1.text_frame
-set_text(tf, "Student A", size=24, bold=True, color=MID_GRAY)
-add_paragraph(tf, "", size=10)
-add_paragraph(tf, '"I know Python."', size=22, color=LIGHT_GRAY)
-add_paragraph(tf, "", size=8)
-add_paragraph(tf, "No proof. No projects.", size=20, color=MID_GRAY)
-add_paragraph(tf, "Just a claim.", size=20, color=MID_GRAY)
-
-card2 = add_shape(slide, Inches(7), Inches(3.3), Inches(4.8), Inches(3), DARK_CARD, ACCENT_GREEN)
-tb_c2 = add_text_box(slide, Inches(7.3), Inches(3.6), Inches(4.3), Inches(2.5))
-tf2 = tb_c2.text_frame
-set_text(tf2, "Student B", size=24, bold=True, color=ACCENT_GREEN)
-add_paragraph(tf2, "", size=10)
-add_paragraph(tf2, "Opens laptop. Shows a live", size=22, color=WHITE)
-add_paragraph(tf2, "AI chatbot they built.", size=22, color=WHITE)
-add_paragraph(tf2, "", size=8)
-add_paragraph(tf2, "7 projects. Real portfolio.", size=20, color=ACCENT_GREEN)
-
-
-# =====================================================
-# SLIDE 14 - The 3 Phases
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
-
-tb = add_text_box(slide, Inches(1.5), Inches(0.3), Inches(10.3), Inches(1))
-set_text(tb.text_frame, "Your 6-Week Journey", size=44, bold=True, color=WHITE, alignment=PP_ALIGN.CENTER)
-
-tb_sub = add_text_box(slide, Inches(1.5), Inches(1.1), Inches(10.3), Inches(0.6))
-set_text(tb_sub.text_frame, "Learn.  Build.  Amplify.", size=26, color=ACCENT_BLUE, alignment=PP_ALIGN.CENTER)
-
-# Phase 1
-card1 = add_shape(slide, Inches(0.5), Inches(2.2), Inches(3.9), Inches(4.5), DARK_CARD, ACCENT_ORANGE)
-tb1 = add_text_box(slide, Inches(0.8), Inches(2.5), Inches(3.4), Inches(4))
-tf = tb1.text_frame
-set_text(tf, "Phase 1: Foundation", size=20, bold=True, color=ACCENT_ORANGE)
-add_paragraph(tf, "Weeks 1-2", size=16, color=MID_GRAY)
-add_paragraph(tf, "", size=8)
-add_paragraph(tf, "Python fundamentals", size=18, color=WHITE)
-add_paragraph(tf, "Logic & problem-solving", size=18, color=WHITE)
-add_paragraph(tf, "No AI. Intentionally.", size=18, color=WHITE)
-add_paragraph(tf, "", size=6)
-add_paragraph(tf, "Project:", size=16, color=MID_GRAY)
-add_paragraph(tf, "Password Fortress", size=18, bold=True, color=ACCENT_ORANGE)
-add_paragraph(tf, "", size=6)
-add_paragraph(tf, "AI role: None.", size=16, color=MID_GRAY)
-add_paragraph(tf, '"Learn to think first."', size=16, color=LIGHT_GRAY)
-
-# Phase 2
-card2 = add_shape(slide, Inches(4.7), Inches(2.2), Inches(3.9), Inches(4.5), DARK_CARD, ACCENT_BLUE)
-tb2 = add_text_box(slide, Inches(5.0), Inches(2.5), Inches(3.4), Inches(4))
-tf2 = tb2.text_frame
-set_text(tf2, "Phase 2: Building", size=20, bold=True, color=ACCENT_BLUE)
-add_paragraph(tf2, "Weeks 3-4", size=16, color=MID_GRAY)
-add_paragraph(tf2, "", size=8)
-add_paragraph(tf2, "APIs, web apps, OOP", size=18, color=WHITE)
-add_paragraph(tf2, "How AI models work", size=18, color=WHITE)
-add_paragraph(tf2, "Connect to real AI", size=18, color=WHITE)
-add_paragraph(tf2, "", size=6)
-add_paragraph(tf2, "Projects:", size=16, color=MID_GRAY)
-add_paragraph(tf2, "Quiz Master, Space Defender", size=17, bold=True, color=ACCENT_BLUE)
-add_paragraph(tf2, "", size=6)
-add_paragraph(tf2, "AI role: Learning tool.", size=16, color=MID_GRAY)
-add_paragraph(tf2, '"Ask better questions."', size=16, color=LIGHT_GRAY)
-
-# Phase 3
-card3 = add_shape(slide, Inches(8.9), Inches(2.2), Inches(3.9), Inches(4.5), DARK_CARD, ACCENT_GREEN)
-tb3 = add_text_box(slide, Inches(9.2), Inches(2.5), Inches(3.4), Inches(4))
-tf3 = tb3.text_frame
-set_text(tf3, "Phase 3: Amplify", size=20, bold=True, color=ACCENT_GREEN)
-add_paragraph(tf3, "Weeks 5-6", size=16, color=MID_GRAY)
-add_paragraph(tf3, "", size=8)
-add_paragraph(tf3, "Full AI-powered apps", size=18, color=WHITE)
-add_paragraph(tf3, "Design your own project", size=18, color=WHITE)
-add_paragraph(tf3, "Portfolio ready", size=18, color=WHITE)
-add_paragraph(tf3, "", size=6)
-add_paragraph(tf3, "Projects:", size=16, color=MID_GRAY)
-add_paragraph(tf3, "Chatbot, Tutor, Story Forge", size=17, bold=True, color=ACCENT_GREEN)
-add_paragraph(tf3, "", size=6)
-add_paragraph(tf3, "AI role: Co-builder.", size=16, color=MID_GRAY)
-add_paragraph(tf3, '"You + AI = 10x"', size=16, color=LIGHT_GRAY)
-
-
-# =====================================================
-# SLIDE 15 - The Logic
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
-
-tb = add_text_box(slide, Inches(1.5), Inches(1), Inches(10.3), Inches(1))
-set_text(tb.text_frame, "The Difference", size=44, bold=True, color=WHITE, alignment=PP_ALIGN.CENTER)
-
-# Without
-card1 = add_shape(slide, Inches(1.5), Inches(2.5), Inches(10.3), Inches(1.5), DARK_CARD, ACCENT_RED)
-tb1 = add_text_box(slide, Inches(2), Inches(2.7), Inches(9.3), Inches(1.2))
-tf = tb1.text_frame
-set_text(tf, "Without foundation      -->      Use AI blindly      -->      You're replaceable", size=24, color=ACCENT_RED, alignment=PP_ALIGN.CENTER, font_name="Consolas")
-
-# With
-card2 = add_shape(slide, Inches(1.5), Inches(4.5), Inches(10.3), Inches(1.5), DARK_CARD, ACCENT_GREEN)
-tb2 = add_text_box(slide, Inches(2), Inches(4.7), Inches(9.3), Inches(1.2))
-tf2 = tb2.text_frame
-set_text(tf2, "With foundation         -->      Direct AI           -->      You're invaluable", size=24, color=ACCENT_GREEN, alignment=PP_ALIGN.CENTER, font_name="Consolas")
-
-
-# =====================================================
-# SLIDE 16 - Interactive: What would YOU build?
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
-
-tb = add_text_box(slide, Inches(1.5), Inches(1.5), Inches(10.3), Inches(2))
-set_text(tb.text_frame, "If you could build ANY\napp or tool...", size=48, bold=True, color=WHITE, alignment=PP_ALIGN.CENTER)
-
-tb2 = add_text_box(slide, Inches(1.5), Inches(4.2), Inches(10.3), Inches(1.5))
-set_text(tb2.text_frame, "What would it be?", size=44, color=ACCENT_GREEN, bold=True, alignment=PP_ALIGN.CENTER)
-
-tb3 = add_text_box(slide, Inches(1.5), Inches(6), Inches(10.3), Inches(0.8))
-set_text(tb3.text_frame, "[ Open discussion -- let students share ideas ]", size=20, color=MID_GRAY, alignment=PP_ALIGN.CENTER)
-
-
-# =====================================================
-# SLIDE 17 - What's Next
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
-
-tb = add_text_box(slide, Inches(1.5), Inches(0.5), Inches(10.3), Inches(1))
-set_text(tb.text_frame, "What's Coming Next", size=44, bold=True, color=WHITE, alignment=PP_ALIGN.CENTER)
-
-sessions = [
-    ("Week 1-2", "Python Fundamentals + Password Fortress", ACCENT_ORANGE),
-    ("Week 3-4", "APIs + Web Apps + AI Integration", ACCENT_BLUE),
-    ("Week 5-6", "Full AI Apps + Your Own Project", ACCENT_GREEN),
-    ("Bonus Sessions", "Linux, Git, Web Scraping, CTF, Hackathon", ACCENT_PURPLE),
+add_textbox(s, 7.0, 1.2, 5.8, 0.4, "Why Other Methods Fall Short",
+            font_size=17, color=NAVY, bold=True)
+other_items = [
+    "\u2022  DRQ: Cannot approximate the full Q-function surface",
+    "\u2022  DRSQ: Softmax ranking harder to match than just the winner",
+    "\u2022  PPO: Over-regularized, converges to local optima",
+    "\u2022  CMA-ES: Requires thousands of episodes, unsafe exploration",
+    "\u2022  Pure polynomial/Fourier: Cannot complete basic scenarios",
 ]
+add_bullet_list(s, 7.2, 1.7, 5.8, 3, other_items, font_size=15, color=DARK_GRAY, spacing=Pt(10))
 
-for i, (week, desc, color) in enumerate(sessions):
-    y = Inches(2) + Inches(1.3) * i
-    card = add_shape(slide, Inches(1.5), y, Inches(10.3), Inches(1.05), DARK_CARD, color)
-    tb_w = add_text_box(slide, Inches(1.8), y + Emu(Inches(0.15).emu), Inches(2.5), Inches(0.8))
-    set_text(tb_w.text_frame, week, size=22, bold=True, color=color)
-    tb_d = add_text_box(slide, Inches(4.5), y + Emu(Inches(0.15).emu), Inches(7), Inches(0.8))
-    set_text(tb_d.text_frame, desc, size=22, color=WHITE)
+add_box(s, 0.6, 5.0, 12.1, 1.6,
+        "Critical Insight\n\n"
+        "The performance gap between DRHQ (~50\u201385 sec) and the full black-box DQN (~48\u201382 sec) is only 1\u20133 seconds.\n"
+        "This marginal cost buys complete interpretability \u2014 every decision can be explained, audited,\n"
+        "and manually adjusted by traffic engineers.  For safety-critical infrastructure, this is an excellent trade-off.",
+        font_size=15, fill_color=BOX_BG, text_color=DARK_GRAY,
+        border_color=NAVY, alignment=PP_ALIGN.CENTER)
 
+# ═══════════════════════════════════════════════
+# SLIDE 11 — Limitations & Future Scope
+# ═══════════════════════════════════════════════
+s = prs.slides.add_slide(blank)
+slide_header(s, "Limitations & Future Scope")
 
-# =====================================================
-# SLIDE 18 - Closing
-# =====================================================
-slide = prs.slides.add_slide(prs.slide_layouts[6])
-set_slide_bg(slide)
+add_textbox(s, 0.6, 1.2, 5.8, 0.4, "Limitations of This Work",
+            font_size=17, color=RED_ACC, bold=True)
+lim_items = [
+    "\u2022  Single intersection only \u2014 transferability is unknown",
+    "\u2022  All results are from simulation (SUMO), no real-world test",
+    "\u2022  CMA-ES is impractical despite showing ceiling performance",
+    "\u2022  PPO fails under high demand scenarios",
+    "\u2022  No warm-starting from existing controllers explored",
+    "\u2022  352 parameters still requires significant compute",
+    "\u2022  Limited to one geographic region (Utah traffic data only)",
+]
+add_bullet_list(s, 0.8, 1.7, 5.8, 4.5, lim_items, font_size=14, color=DARK_GRAY, spacing=Pt(8))
 
-line = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, Inches(4.5), Inches(2.5), Inches(4.3), Pt(4))
-line.fill.solid()
-line.fill.fore_color.rgb = ACCENT_BLUE
-line.line.fill.background()
+add_textbox(s, 7.0, 1.2, 5.8, 0.4, "Future Research Directions",
+            font_size=17, color=GREEN_ACC, bold=True)
+future_items = [
+    "\u2022  Warm-starting from currently deployed controller behavior",
+    "\u2022  Multi-intersection coordination & network optimization",
+    "\u2022  Real-world deployment and field testing validation",
+    "\u2022  Transferability studies across intersection types",
+    "\u2022  Incorporating pedestrian and cyclist signal phases",
+    "\u2022  Adaptive parameter count based on intersection complexity",
+    "\u2022  Integration with connected & autonomous vehicle data",
+]
+add_bullet_list(s, 7.2, 1.7, 5.8, 4.5, future_items, font_size=14, color=DARK_GRAY, spacing=Pt(8))
 
-tb = add_text_box(slide, Inches(1.5), Inches(1), Inches(10.3), Inches(1.5))
-set_text(tb.text_frame, "WorldWithWeb", size=52, bold=True, color=WHITE, alignment=PP_ALIGN.CENTER)
+# ═══════════════════════════════════════════════
+# SLIDE 12 — Conclusion
+# ═══════════════════════════════════════════════
+s = prs.slides.add_slide(blank)
+slide_header(s, "Conclusion & Key Takeaways")
 
-tb2 = add_text_box(slide, Inches(1.5), Inches(3), Inches(10.3), Inches(1))
-set_text(tb2.text_frame, "Don't learn to code. Code to learn.", size=30, color=ACCENT_BLUE, alignment=PP_ALIGN.CENTER)
+takeaways = [
+    "1.   Interpretable polynomial policies CAN match DNN performance (gap \u2264 1\u20133 sec)",
+    "",
+    "2.   DRHQ (Hardmax variant) achieves 19.4% delay reduction vs. actuated controllers",
+    "",
+    "3.   \"Regulatable\" = monotonic input-output relationship = human-understandable decisions",
+    "",
+    "4.   Policy gradient methods (PPO) are unsuitable for traffic signal optimization",
+    "",
+    "5.   The paper bridges the gap between AI performance and real-world deployability",
+    "",
+    "6.   Interpretability is not a luxury \u2014 it is a requirement for safety-critical systems",
+]
+add_bullet_list(s, 1.0, 1.3, 11.3, 4.5, takeaways, font_size=17, color=DARK_GRAY, spacing=Pt(4))
 
-tb3 = add_text_box(slide, Inches(1.5), Inches(4.5), Inches(10.3), Inches(1.5))
-tf = tb3.text_frame
-set_text(tf, "worldwithweb.com", size=24, color=LIGHT_GRAY, alignment=PP_ALIGN.CENTER)
-add_paragraph(tf, "", size=10)
-add_paragraph(tf, "Let's build something.", size=28, color=ACCENT_GREEN, bold=True, alignment=PP_ALIGN.CENTER)
+add_box(s, 2.0, 5.8, 9.3, 0.9,
+        "\"We can build AI systems that are both powerful and explainable.\n"
+        "We do not always have to choose one over the other.\"",
+        font_size=16, fill_color=BOX_BG, text_color=NAVY,
+        border_color=NAVY, alignment=PP_ALIGN.CENTER)
 
+# ═══════════════════════════════════════════════
+# SLIDE 13 — References
+# ═══════════════════════════════════════════════
+s = prs.slides.add_slide(blank)
+slide_header(s, "References")
 
-# Save
-output_path = r"c:\Users\naaz.verma\personal\python_projects\WorldWithWeb_Demo_Session.pptx"
+refs = [
+    "[1]  Ault, J., Hanna, J. P., & Sharon, G. (2020). Learning an Interpretable Traffic Signal",
+    "      Control Policy. arXiv preprint arXiv:1912.11023v2.",
+    "",
+    "[2]  Mnih, V. et al. (2015). Human-level control through deep reinforcement learning.",
+    "      Nature, 518(7540), 529\u2013533.",
+    "",
+    "[3]  Schulman, J. et al. (2017). Proximal Policy Optimization Algorithms.",
+    "      arXiv preprint arXiv:1707.06347.",
+    "",
+    "[4]  Hansen, N. (2006). The CMA Evolution Strategy: A Comparing Review.",
+    "      Towards a New Evolutionary Computation, pp. 75\u2013102.",
+    "",
+    "[5]  Lopez, P.A. et al. (2018). Microscopic Traffic Simulation using SUMO.",
+    "      IEEE ITSC 2018.",
+]
+add_bullet_list(s, 0.8, 1.3, 11.5, 5.5, refs, font_size=14, color=DARK_GRAY, spacing=Pt(3))
+
+# ═══════════════════════════════════════════════
+# SLIDE 14 — Thank You
+# ═══════════════════════════════════════════════
+s = prs.slides.add_slide(blank)
+set_slide_bg(s, WHITE)
+add_bar(s, 0, 2.5, 13.333, 2.8, DARK_BLUE)
+
+add_textbox(s, 1.5, 3.0, 10.3, 0.8, "Thank You",
+            font_size=40, color=WHITE, bold=True, alignment=PP_ALIGN.CENTER)
+
+add_bar(s, 5.5, 3.95, 2.3, 0.03, RGBColor(0xBB, 0xCC, 0xDD))
+
+add_textbox(s, 1.5, 4.2, 10.3, 0.6, "Questions & Discussion",
+            font_size=22, color=RGBColor(0xCC, 0xDD, 0xEE), alignment=PP_ALIGN.CENTER)
+
+add_textbox(s, 1.5, 5.8, 10.3, 0.4,
+            "Paper: arXiv 1912.11023v2  |  Authors: Ault, Hanna, Sharon (2020)",
+            font_size=14, color=MID_GRAY, alignment=PP_ALIGN.CENTER)
+
+add_textbox(s, 1.5, 6.3, 10.3, 0.4,
+            "Presented by: Naaz Verma",
+            font_size=16, color=NAVY, bold=True, alignment=PP_ALIGN.CENTER)
+
+add_bar(s, 0, 7.2, 13.333, 0.03, BLUE)
+
+# ═══════════════════════════════════════════════
+output_path = r"c:\Users\naaz.verma\personal\python_projects\01_quiz_master\Traffic_Signal_Control_Presentation.pptx"
 prs.save(output_path)
-print(f"Saved to {output_path}")
+print(f"Presentation saved to: {output_path}")
