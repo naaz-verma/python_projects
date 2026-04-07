@@ -255,3 +255,10 @@ python main.py
 We help school students (classes 8th-10th) discover and build their tech career -- starting with excitement, ending with expertise.
 
 **Website:** [worldwithweb.com](https://worldwithweb.com)
+
+Below is expected scope for content in the slide(s)
+            - The main objective and motivation of the paper (1 marks)
+            - The key techniques and algorithmic approaches introduced (1 marks)
+            - The main results and interpretation of the results (2 marks)
+            - Any limitations and future scope of the work (1 marks)
+            - Recording of the presentation clearly highlighting the above aspects (5 marks)
