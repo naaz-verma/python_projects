@@ -67,3 +67,24 @@ class GeminiResponse:
     def __init__(self, data):
         self._data = data
         self.text = data["candidates"][0]["content"]["parts"][0]["text"]
+
+if __name__ == "__main__":
+    # Test 1: API key loading
+    key = load_api_key()
+    print(f"API key loaded: {bool(key)}")
+
+    # Test 2: Model creation
+    model = get_gemini_model()
+    if model:
+        print(f"Model created: {model.model}")
+
+        # Test 3: Single prompt
+        resp = model.generate_content("Say hello in one word")
+        print(f"Response: {resp.text}")
+
+        # Test 4: Chat
+        chat = model.start_chat()
+        reply = chat.send_message("What is 2+2?")
+        print(f"Chat reply: {reply.text}")
+    else:
+        print("No valid API key found. Check your .env file.")
