@@ -1,6 +1,6 @@
 # Presentation Script
 ## "Learning an Interpretable Traffic Signal Control Policy"
-### Paper by: Ault, Hanna, Sharon (2020) | Presented by: Naaz Verma
+### Paper by: Ault, Hanna, Sharon (2020) | Presented by: 
 
 ---
 
