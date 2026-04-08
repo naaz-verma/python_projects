@@ -77,7 +77,7 @@ python -m pip install requests
 
 **What is an API key?** It's like a password that lets your code talk to Google's AI. Without it, Google won't respond to your requests.
 
-1. Go to [https://aistudio.google.com/apikey](https://aistudio.google.com/apikey)
+1. Go to [https://aistudio.google.com/apikey](httvvcccbkbkdlhgvvhdvjtftikdrrjrups://aistudio.google.com/apikey)
 2. Sign in with your Google account
 3. Click **"Create API Key"**
 4. Copy the key (it looks like `AIzaSy...`)
