@@ -50,6 +50,8 @@ Respond ONLY with valid JSON in this exact format (no extra text):
         content = content.strip()
 
     quiz_data = json.loads(content)
+    if isinstance(quiz_data, list):
+        return quiz_data
     return quiz_data["questions"]
 
 
