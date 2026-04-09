@@ -36,13 +36,30 @@ Respond ONLY with valid JSON in this exact format (no extra text):
     response = model.generate_content(prompt)
 
     content = response.text.strip()
-    # Strip markdown code fences if present
-    if content.startswith("```"):
-        content = content.split("\n", 1)[1]
-        content = content.rsplit("```", 1)[0]
+
+    # Find the JSON portion (skip any markdown fences or extra text)
+    start = content.find('{')
+    if start == -1:
+        start = content.find('[')
+    if start == -1:
+        raise ValueError("No JSON found in model response")
+    end = max(content.rfind('}'), content.rfind(']'))
+    content = content[start:end + 1]
 
     quiz_data = json.loads(content)
-    return quiz_data["questions"]
+
+    # Handle both {"questions": [...]} and bare [...] formats
+    if isinstance(quiz_data, list):
+        questions = quiz_data
+    else:
+        questions = quiz_data["questions"]
+
+    # Validate that each question is a proper dict
+    for q in questions:
+        if not isinstance(q, dict) or "question" not in q or "options" not in q:
+            raise ValueError("Model returned invalid question format. Please try again.")
+
+    return questions
 
 
 def check_answer(user_answer, correct_answer):

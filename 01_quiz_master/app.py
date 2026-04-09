@@ -16,6 +16,8 @@ if "quiz_complete" not in st.session_state:
     st.session_state.quiz_complete = False
 if "score" not in st.session_state:
     st.session_state.score = None
+if "error" not in st.session_state:
+    st.session_state.error = None
 
 # --- Sidebar ---
 st.sidebar.title("AI Quiz Master")
@@ -41,9 +43,10 @@ st.title("AI Quiz Master")
 
 # --- Generate Quiz ---
 if generate_btn and topic:
+    st.session_state.error = None
     model = get_gemini_model()
     if not model:
-        st.error("Gemini API key not found! Please add your GEMINI_API_KEY to the .env file.")
+        st.session_state.error = "Gemini API key not found! Please add your GEMINI_API_KEY to the .env file."
     else:
         with st.spinner(f"Generating a {difficulty.lower()} quiz about **{topic}**..."):
             try:
@@ -55,7 +58,11 @@ if generate_btn and topic:
                 st.session_state.score = None
                 st.rerun()
             except Exception as e:
-                st.error(f"Error generating quiz: {e}")
+                st.session_state.error = f"Error generating quiz: {e}"
+
+# --- Show errors ---
+if st.session_state.error:
+    st.error(st.session_state.error)
 
 # --- No Quiz Yet ---
 if st.session_state.quiz_data is None:
@@ -99,8 +106,12 @@ elif not st.session_state.quiz_complete:
 
 # --- Quiz Complete ---
 else:
-    score = st.session_state.score
     questions = st.session_state.quiz_data
+    if st.session_state.score is None:
+        st.session_state.score = calculate_score(
+            st.session_state.user_answers, questions
+        )
+    score = st.session_state.score
 
     # Score header
     st.markdown("---")
