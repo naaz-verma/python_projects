@@ -38,8 +38,16 @@ Respond ONLY with valid JSON in this exact format (no extra text):
     content = response.text.strip()
     # Strip markdown code fences if present
     if content.startswith("```"):
-        content = content.split("\n", 1)[1]
-        content = content.rsplit("```", 1)[0]
+        # Remove opening fence line (e.g. ```json)
+        first_newline = content.find("\n")
+        if first_newline != -1:
+            content = content[first_newline + 1:]
+        else:
+            content = content.lstrip("`")
+        # Remove closing fence
+        if content.endswith("```"):
+            content = content[:-3]
+        content = content.strip()
 
     quiz_data = json.loads(content)
     return quiz_data["questions"]
