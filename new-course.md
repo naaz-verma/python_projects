@@ -8,10 +8,10 @@ I have such syllabus and catalogue for all subjects, i want brochure kind for ne
 7. Data science with python 60000 ( 6 months streamlit projects 4 AI integrated python libraries projects) 
 8. Cybersecurity with python linux 30000 ( 3 months linux python streamlit projects fundamentals AI integrated) 
 9. Devops and cloud 30000 ( 3 months python versioning ci-cd cloud fundamentals github linkedin ) 
-10. AI/ML course 6 month (python streamlit project1 github libraries data science project 2 , AI ML theory AI ML libraries 2 projects (csv files based)
-11. AI/ML course 1 year (python streamlit project1 github libraries data science project 3-4 different datatypes , AI ML theory AI ML libraries 2 projects (csv files, image, text based) capstone project
-12. Data analytics 3 month (python libraries github 1 streamlit project datasef bade projects 2 visualizations charts AI integrated
-13. Business analytics 3 month ( excel powerbi sql tableau charts visualizations 2 projects portfolio, i have made these, these add value and show new base things for students starting career from school itself. getting these enquiries these days.how should i format such brochure single page for each. or per category 2-3 pages. 
+10. AI/ML course 6 month 60000 (python streamlit project1 github libraries data science project 2 , AI ML theory AI ML libraries 2 projects (csv files based)
+11. AI/ML course 1 year 1L20k (python streamlit project1 github libraries data science project 3-4 different datatypes , AI ML theory AI ML libraries 2 projects (csv files, image, text based) capstone project
+12. Data analytics 3 month 30000(python libraries github 1 streamlit project datasef bade projects 2 visualizations charts AI integrated
+13. Business analytics 3 month 30000 ( excel powerbi sql tableau charts visualizations 2 projects portfolio, i have made these, these add value and show new base things for students starting career from school itself. getting these enquiries these days.how should i format such brochure single page for each. or per category 2-3 pages. 
 
 I looked at your existing catalogue and the AI/ML syllabus you uploaded. Your current catalogue is good for corporate-style overview, but what you’re planning now is slightly different:
 
