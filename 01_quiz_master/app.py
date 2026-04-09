@@ -99,8 +99,12 @@ elif not st.session_state.quiz_complete:
 
 # --- Quiz Complete ---
 else:
-    score = st.session_state.score
     questions = st.session_state.quiz_data
+    if st.session_state.score is None:
+        st.session_state.score = calculate_score(
+            st.session_state.user_answers, questions
+        )
+    score = st.session_state.score
 
     # Score header
     st.markdown("---")
