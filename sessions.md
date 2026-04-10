@@ -352,12 +352,16 @@ These run alongside the 6-week program. Self-contained -- students can miss one 
 
 ---
 
-## For Schools (Classes 8-10)
+## For Schools (Classes 8-12)
 
 | Product | Format | Duration |
 |---------|--------|----------|
 | Inspiration Talk | Free, one-time | 1-1.5 hours |
 | 6-Week Python Program | Paid, regular classes | 6 weeks (2-3x/week) |
+| MS Office Basics | Paid, regular classes | 1.5 months |
+| AI Tools Mastery | Paid, regular classes | 1.5 months |
+| Graphics & Design (Canva + Basics) | Paid, regular classes | 1.5-3 months |
+| Web Dev (Frontend) | Paid, regular classes | 3 months |
 | Special Tech Sessions | Biweekly, alongside program | 1.5-2 hrs each |
 | Career Readiness Program | Add-on | 6 sessions |
 
@@ -367,6 +371,7 @@ These run alongside the 6-week program. Self-contained -- students can miss one 
 |---------|--------|----------|
 | Inspiration Talk | Free, college-wide | 1-1.5 hours |
 | Weekend Skill Bootcamps | Paid, per bootcamp | 8 hours (1 day) |
+| Full Courses (see below) | Paid, regular classes | 1-6 months |
 | Career Readiness Program | Add-on | 6 sessions |
 
 ### Bootcamp Menu (Colleges Pick):
@@ -380,12 +385,92 @@ These run alongside the 6-week program. Self-contained -- students can miss one 
 7. Python + AI App Building
 8. Cybersecurity Fundamentals
 
+### Full Course Menu (Colleges / Individual Enrollment):
+
+**Programming & Development Track**
+| Course | Duration | Fee |
+|--------|----------|-----|
+| Python Starter | 1.5 months | Rs. 10,500 |
+| Python Complete | 3 months | Rs. 30,000 |
+| C/C++ | 1.5 months | Rs. 12,000 |
+| DSA | 2 months | Rs. 18,000 |
+| C/C++ + DSA Complete | 3-4 months | Rs. 30,000 |
+| Web Dev (MERN Stack) | 6 months | Rs. 60,000 |
+| Web Dev with Python | 6 months | Rs. 60,000 |
+| DevOps & Cloud | 3 months | Rs. 30,000 |
+| Cybersecurity with Python | 3 months | Rs. 30,000 |
+
+**Data & AI Track**
+| Course | Duration | Fee |
+|--------|----------|-----|
+| Data Science with Python | 6 months | Rs. 60,000 |
+| AI/ML (6 Month) | 6 months | Rs. 60,000 |
+| AI/ML (1 Year) | 1 year | Rs. 1,20,000 |
+| Data Analytics | 3 months | Rs. 30,000 |
+| Business Analytics | 3 months | Rs. 30,000 |
+
+**Digital Skills Track (NEW)**
+| Course | Duration | Fee |
+|--------|----------|-----|
+| MS Office Basics | 1.5 months | Rs. 10,500 |
+| Advanced Excel | 1 month | Rs. 12,000 |
+| AI Tools Mastery | 1.5 months | Rs. 12,000 |
+| Digital Marketing | 3 months | Rs. 30,000 |
+| Graphics & Design | 3 months | Rs. 30,000 |
+
 ## For Professionals / Working People
 
 | Product | Format | Duration |
 |---------|--------|----------|
 | Weekend Skill Bootcamps | Paid, same as college | 8 hours (1 day) |
+| Full Courses | Paid, regular/weekend | 1-6 months |
 | Career Development Program | Add-on | 6 sessions |
+
+---
+
+# DIGITAL SKILLS TRACK -- SESSION STRUCTURE
+
+These new courses follow the same "Learn. Build. Amplify." framework as the Python program, adapted for non-coding disciplines.
+
+## Common Session Structure (70-20-10 Rule)
+
+Every session (1.5-2 hrs) follows:
+
+| Block | Time | What Happens |
+|-------|------|--------------|
+| Concept | 20% (~20 min) | Trainer teaches the concept needed for today's project step |
+| Build | 70% (~70 min) | Students apply the concept by building the next piece of their project |
+| Portfolio | 10% (~10 min) | Students save work, screenshot, update portfolio folder |
+
+## AI Integration (Phased -- Same Model as Python)
+
+All courses follow the three-phase AI approach:
+
+| Phase | AI Role | Example |
+|-------|---------|---------|
+| Foundation | **None** -- learn fundamentals manually | Learn XLOOKUP before using Copilot |
+| Building | **Assistant** -- AI helps, student reviews | ChatGPT drafts copy, student edits |
+| Amplification | **Co-creator** -- AI accelerates, student directs | Zapier automations, AI-generated designs |
+
+## Portfolio Platform Per Course
+
+| Course | Where Portfolio Lives | Why |
+|--------|----------------------|-----|
+| Web Dev (MERN) | GitHub + Vercel/Netlify | Industry standard, live URLs |
+| Digital Marketing | Notion + Google Drive + LinkedIn | Non-technical, shareable |
+| MS Office Basics | Google Drive + LinkedIn docs | Accessible, professional |
+| Advanced Excel | Google Drive + LinkedIn | Shows dashboards and analysis |
+| AI Tools Mastery | Notion + Google Drive + LinkedIn | Flexible, shows AI workflow |
+| Graphics & Design | Behance + LinkedIn | Industry standard for designers |
+| Python (existing) | GitHub + Streamlit Cloud | Already in place |
+
+## Trainer Rules (All Courses)
+
+1. **Never teach a concept without project context** -- "Your dashboard needs XLOOKUP" not "Today we learn XLOOKUP"
+2. **Every session ends with a deliverable** -- save, screenshot, portfolio folder update
+3. **Portfolio checkpoint every 2 weeks** -- 5 min per student review
+4. **Final session is presentation, not exam** -- students present 2-3 best projects
+5. **AI is phased** -- Foundation: no AI. Building: AI assists. Amplification: AI co-creates
 
 ---
 
@@ -396,3 +481,8 @@ These run alongside the 6-week program. Self-contained -- students can miss one 
 - School special sessions repeat for every new batch -- reusable content.
 - College bootcamps are modular -- colleges pick what fits their students.
 - Bootcamps 7 (Python + AI) and 8 (Cybersecurity) are new additions bridging school-to-college for technical students.
+- **NEW Digital Skills Track** (MS Office, Advanced Excel, AI Tools, Digital Marketing, Graphics) targets non-programming students and widens the funnel beyond tech-only audience.
+- Digital Skills courses use the same portfolio-first, AI-integrated approach as programming courses.
+- Every course follows the same USP: "Every student graduates with a portfolio, not just a certificate."
+- Digital Marketing students get 3 free certifications (Google Ads, GA4, HubSpot) built into the course -- major selling point.
+- Graphics students get a Behance portfolio -- visible, professional, and shareable with employers.
