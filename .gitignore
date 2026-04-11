@@ -29,3 +29,7 @@ Thumbs.db
 desktop.ini
 
 /house_plan
+
+# Large media files (use split parts instead)
+*.mp4
+*.zip
