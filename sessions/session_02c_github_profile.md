@@ -221,7 +221,49 @@ Commit the README directly on GitHub.
 | Problem | Fix |
 |---------|-----|
 | "git is not recognized" | Install Git from https://git-scm.com, restart terminal |
-| Authentication failed on push | Use HTTPS with personal access token, or set up SSH key |
+| Authentication failed on push | Use HTTPS with personal access token (see below), or set up SSH key |
 | `.env` file got pushed | Delete it from GitHub, add `.gitignore`, recommit. Change API key immediately. |
 | "main" vs "master" branch | Use `git branch -M main` to rename |
 | Permission denied | Check repo URL is correct, check you're logged into the right account |
+| Browser popup doesn't appear on push | Use a Personal Access Token instead (see below) |
+
+---
+
+## Authentication: Personal Access Token (if browser login doesn't work)
+
+On first `git push`, a browser window usually pops up asking to **Sign in to GitHub**. Log in and click **Authorize**.
+
+If the browser popup doesn't appear and terminal asks for a password:
+
+1. Go to GitHub → Settings → Developer Settings → **Personal Access Tokens** → **Tokens (classic)**
+2. Click **Generate new token**
+3. Check the `repo` scope
+4. Copy the token (you won't see it again)
+5. Paste the token as the password when prompted in terminal
+
+---
+
+## Quick Reference: Git Commands
+
+```bash
+# First-time setup (one-time)
+git config --global user.name "Your Name"
+git config --global user.email "your@email.com"
+
+# Initialize and push a new project
+git init
+git add .
+git commit -m "Initial commit: project name"
+git branch -M main
+git remote add origin https://github.com/USERNAME/repo-name.git
+git push -u origin main
+
+# Future pushes (after making changes)
+git add .
+git commit -m "Describe what changed"
+git push
+
+# Check status
+git status
+git config --global --list
+```
