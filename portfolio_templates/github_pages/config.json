@@ -1,0 +1,55 @@
+{
+  "name": "Your Name",
+  "tagline": "Aspiring Developer | WorldWithWeb Graduate",
+  "about": "Write 2-3 sentences about yourself. What are you passionate about? What did you learn at WorldWithWeb?",
+  "photo": "assets/photo.jpg",
+  "email": "your.email@example.com",
+  "github": "https://github.com/yourusername",
+  "linkedin": "https://linkedin.com/in/yourusername",
+  "resume": "assets/resume.pdf",
+  "skills": [
+    "Python",
+    "HTML & CSS",
+    "Git & GitHub",
+    "Problem Solving"
+  ],
+  "projects": [
+    {
+      "title": "Project 1 Title",
+      "description": "Brief description of what this project does and what you learned.",
+      "tech": ["Python", "Streamlit"],
+      "image": "assets/project1.png",
+      "github_link": "https://github.com/yourusername/project1",
+      "live_link": ""
+    },
+    {
+      "title": "Project 2 Title",
+      "description": "Brief description of what this project does and what you learned.",
+      "tech": ["Python", "Pygame"],
+      "image": "assets/project2.png",
+      "github_link": "https://github.com/yourusername/project2",
+      "live_link": ""
+    },
+    {
+      "title": "Project 3 Title",
+      "description": "Brief description of what this project does and what you learned.",
+      "tech": ["Python"],
+      "image": "assets/project3.png",
+      "github_link": "https://github.com/yourusername/project3",
+      "live_link": ""
+    }
+  ],
+  "education": [
+    {
+      "institution": "WorldWithWeb",
+      "course": "Your Course Name",
+      "year": "2026"
+    }
+  ],
+  "theme": {
+    "primary_color": "#4472C4",
+    "secondary_color": "#2c3e50",
+    "accent_color": "#e74c3c",
+    "font": "Inter"
+  }
+}
