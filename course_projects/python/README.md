@@ -1,6 +1,6 @@
 # Python Projects (Built & Ready)
 
-These 7 projects are already built with full code, READMEs, and working apps. They live in the repo root -- not in this folder.
+These 8 projects are already built with full code, READMEs, and working apps. They live in the repo root -- not in this folder.
 
 | # | Project | Location | Tech | Used In |
 |---|---------|----------|------|---------|
@@ -11,6 +11,7 @@ These 7 projects are already built with full code, READMEs, and working apps. Th
 | 5 | Network Sentinel | [05_network_sentinel/](../../05_network_sentinel/) | Python, Streamlit | Cybersecurity |
 | 6 | AI Chatbot | [06_ai_chatbot/](../../06_ai_chatbot/) | Python, Streamlit, Gemini AI | Python Complete |
 | 7 | AI Tutor | [07_ai_tutor/](../../07_ai_tutor/) | Python, Streamlit, Gemini AI | AIML 6Month |
+| 8 | Smart Calculator | [08_smart_calculator/](../../08_smart_calculator/) | Python, Streamlit | Python Starter |
 
 ## For Trainers
 
