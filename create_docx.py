@@ -28,8 +28,6 @@ def add_code_block(doc, code_text, label=None):
         r = p.add_run(label)
         r.bold = True
         r.font.size = Pt(10)
-        r.font.color.rgb = RGBColor(0, 51, 102)
-
     # Create a single-cell table to simulate a code box
     tbl = doc.add_table(rows=1, cols=1)
     tbl.alignment = WD_TABLE_ALIGNMENT.LEFT
@@ -47,16 +45,15 @@ def add_code_block(doc, code_text, label=None):
     r = p.add_run(code_text)
     r.font.name = 'Consolas'
     r.font.size = Pt(8)
-    r.font.color.rgb = RGBColor(0, 0, 0)
     doc.add_paragraph()  # spacing after
 
 # ---- Header with BITS ID on every page ----
 header = doc.sections[0].header
 hp = header.paragraphs[0]
 hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-hr = hp.add_run("BITS ID: __________________")
+hr = hp.add_run("BITS ID: 2025AF05094")
 hr.font.size = Pt(9)
-hr.font.color.rgb = RGBColor(100, 100, 100)
+hr.font.color.rgb = RGBColor(0, 0, 0)
 
 # ---- Footer with page number ----
 footer = doc.sections[0].footer
@@ -74,14 +71,11 @@ p.alignment = WD_ALIGN_PARAGRAPH.CENTER
 r = p.add_run("AIML Assignment 2")
 r.bold = True
 r.font.size = Pt(28)
-r.font.color.rgb = RGBColor(0, 51, 102)
-
 p = doc.add_paragraph()
 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
 r = p.add_run("Intrusion Detection System\nusing Machine Learning")
 r.bold = True
 r.font.size = Pt(20)
-r.font.color.rgb = RGBColor(0, 102, 153)
 
 doc.add_paragraph()
 
@@ -89,7 +83,6 @@ p = doc.add_paragraph()
 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
 r = p.add_run("Network Intrusion Detection using KDD Cup 1999 Dataset\nComparative Analysis of Six ML Classification Algorithms")
 r.font.size = Pt(12)
-r.font.color.rgb = RGBColor(80, 80, 80)
 
 for _ in range(4):
     doc.add_paragraph()
@@ -99,7 +92,7 @@ table = doc.add_table(rows=4, cols=2)
 table.alignment = WD_TABLE_ALIGNMENT.CENTER
 details = [
     ("Student Name", "[Your Name]"),
-    ("BITS ID", "[Your BITS ID]"),
+    ("BITS ID", "2025AF05094"),
     ("Course", "Artificial Intelligence & Machine Learning"),
     ("Date", "April 2026"),
 ]
@@ -183,7 +176,7 @@ doc.add_paragraph(
 )
 
 doc.add_paragraph()
-table = doc.add_table(rows=6, cols=2, style='Light List Accent 1')
+table = doc.add_table(rows=6, cols=2, style='Table Grid')
 table.alignment = WD_TABLE_ALIGNMENT.CENTER
 data = [
     ("Property", "Value"),
@@ -204,7 +197,7 @@ for i, (k, v) in enumerate(data):
 
 doc.add_paragraph()
 doc.add_paragraph("Attack Categories and Descriptions:", style='List Bullet')
-table2 = doc.add_table(rows=6, cols=3, style='Light List Accent 1')
+table2 = doc.add_table(rows=6, cols=3, style='Table Grid')
 table2.alignment = WD_TABLE_ALIGNMENT.CENTER
 attacks = [
     ("Category", "Description", "Examples"),
@@ -336,7 +329,7 @@ doc.add_paragraph(
 
 doc.add_heading("3.3 Key Libraries", level=2)
 
-lib_table = doc.add_table(rows=8, cols=3, style='Light List Accent 1')
+lib_table = doc.add_table(rows=8, cols=3, style='Table Grid')
 lib_table.alignment = WD_TABLE_ALIGNMENT.CENTER
 libs = [
     ("Library", "Version", "Purpose"),
@@ -862,7 +855,7 @@ for f in [
     doc.add_paragraph(f, style='List Bullet')
 
 doc.add_heading("11.3 Recommendations", level=2)
-rec_table = doc.add_table(rows=4, cols=2, style='Light List Accent 1')
+rec_table = doc.add_table(rows=4, cols=2, style='Table Grid')
 rec_table.alignment = WD_TABLE_ALIGNMENT.CENTER
 recs = [
     ("Use Case", "Recommended Model"),
