@@ -53,6 +53,16 @@ Full session plan: [Session 2C: GitHub Profile](session_02c_github_profile.md)
 
 ---
 
+## Session 3: Build Your Digital Profile (All Students)
+
+**Type:** Guided workshop (mixed -- all course tracks) | **Duration:** 2 hours | **Prerequisite:** None
+
+Hands-on: LinkedIn optimization + Resume building on Canva. Awareness: GitHub, portfolio websites, Behance/Dribbble, and more.
+
+Full session plan: [Session 3: Digital Profile](session_03_digital_profile.md)
+
+---
+
 ## Level 2: The 6-Week Program + Biweekly Special Sessions
 
 ### Core Program: 6-Week Python Track
