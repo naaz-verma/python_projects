@@ -1,4 +1,5 @@
 import os
+import time
 import requests
 from dotenv import load_dotenv
 
@@ -23,16 +24,22 @@ def get_gemini_model():
 class GeminiModel:
     """Lightweight wrapper around Gemini REST API."""
 
-    def __init__(self, api_key, model="gemma-3-4b-it"):
+    def __init__(self, api_key, model="gemini-2.5-flash-lite"):
         self.api_key = api_key
         self.model = model
         self.base_url = "https://generativelanguage.googleapis.com/v1beta"
 
     def generate_content(self, prompt):
-        """Generate content from a text prompt."""
+        """Generate content from a text prompt (with retry on rate limit)."""
         url = f"{self.base_url}/models/{self.model}:generateContent?key={self.api_key}"
         data = {"contents": [{"parts": [{"text": prompt}]}]}
-        r = requests.post(url, json=data, timeout=60, verify=False)
+        for attempt in range(5):
+            r = requests.post(url, json=data, timeout=60, verify=False)
+            if r.status_code == 429:
+                time.sleep(2 ** attempt)
+                continue
+            r.raise_for_status()
+            return GeminiResponse(r.json())
         r.raise_for_status()
         return GeminiResponse(r.json())
 
@@ -49,12 +56,19 @@ class GeminiChat:
         self.history = []
 
     def send_message(self, message):
-        """Send a message and get a response."""
+        """Send a message and get a response (with retry on rate limit)."""
         self.history.append({"role": "user", "parts": [{"text": message}]})
         url = f"{self.model.base_url}/models/{self.model.model}:generateContent?key={self.model.api_key}"
         data = {"contents": self.history}
-        r = requests.post(url, json=data, timeout=60, verify=False)
-        r.raise_for_status()
+        for attempt in range(5):
+            r = requests.post(url, json=data, timeout=60, verify=False)
+            if r.status_code == 429:
+                time.sleep(2 ** attempt)
+                continue
+            r.raise_for_status()
+            break
+        else:
+            r.raise_for_status()
         resp = r.json()
         text = resp["candidates"][0]["content"]["parts"][0]["text"]
         self.history.append({"role": "model", "parts": [{"text": text}]})

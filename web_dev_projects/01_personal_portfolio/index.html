@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">MyPortfolio</a>
+            <!-- Checkbox hack for mobile menu (no JavaScript needed!) -->
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <label for="nav-toggle" class="nav-toggle-label">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <p class="hero-greeting">Hello, I'm</p>
+            <h1 class="hero-name">Your Name</h1>
+            <h2 class="hero-title">Student Developer & Designer</h2>
+            <p class="hero-description">
+                I love building things with code. Currently learning Python,
+                web development, and exploring how technology can solve real problems.
+            </p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">View My Work</a>
+                <a href="#contact" class="btn btn-outline">Contact Me</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="hero-avatar">
+                <!-- Replace this with your photo -->
+                <div class="avatar-placeholder">YN</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT SECTION ===== -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        I'm a passionate student who loves technology and creative problem-solving.
+                        My journey into coding started with Python, and since then I've been
+                        building projects that combine logic with creativity.
+                    </p>
+                    <p>
+                        When I'm not coding, you can find me reading about new technologies,
+                        playing video games, or working on my next project idea. I believe in
+                        learning by doing -- every project teaches me something new.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <span class="stat-number">5+</span>
+                            <span class="stat-label">Projects Built</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">3+</span>
+                            <span class="stat-label">Languages Learned</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">100+</span>
+                            <span class="stat-label">Hours of Coding</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SKILLS SECTION ===== -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">My Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">&#128013;</div>
+                    <h3>Python</h3>
+                    <p>Variables, functions, loops, dictionaries, file handling, APIs</p>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 75%"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">&#127760;</div>
+                    <h3>HTML</h3>
+                    <p>Semantic elements, forms, tables, links, images, structure</p>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 70%"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">&#127912;</div>
+                    <h3>CSS</h3>
+                    <p>Flexbox, Grid, animations, responsive design, variables</p>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 65%"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">&#128187;</div>
+                    <h3>Problem Solving</h3>
+                    <p>Logic building, debugging, breaking down complex problems</p>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 80%"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">&#129302;</div>
+                    <h3>AI Tools</h3>
+                    <p>Gemini API, prompt engineering, building AI-powered apps</p>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 60%"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">&#128640;</div>
+                    <h3>Git & GitHub</h3>
+                    <p>Version control, repositories, commits, collaboration</p>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 55%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PROJECTS SECTION ===== -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">My Projects</h2>
+            <div class="projects-grid">
+
+                <div class="project-card">
+                    <div class="project-image project-img-1">
+                        <span class="project-tag">Python</span>
+                    </div>
+                    <div class="project-info">
+                        <h3>AI Quiz Master</h3>
+                        <p>An AI-powered quiz app that generates quizzes on any topic using Google's Gemini AI.</p>
+                        <div class="project-tech">
+                            <span>Python</span>
+                            <span>Streamlit</span>
+                            <span>Gemini API</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image project-img-2">
+                        <span class="project-tag">Game</span>
+                    </div>
+                    <div class="project-info">
+                        <h3>Space Defender</h3>
+                        <p>A retro-style space shooter game built with Pygame. Dodge asteroids and defeat enemies!</p>
+                        <div class="project-tech">
+                            <span>Python</span>
+                            <span>Pygame</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image project-img-3">
+                        <span class="project-tag">Security</span>
+                    </div>
+                    <div class="project-info">
+                        <h3>Password Fortress</h3>
+                        <p>A cybersecurity tool that analyzes password strength and simulates how hackers crack passwords.</p>
+                        <div class="project-tech">
+                            <span>Python</span>
+                            <span>Streamlit</span>
+                            <span>Cryptography</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image project-img-4">
+                        <span class="project-tag">AI Game</span>
+                    </div>
+                    <div class="project-info">
+                        <h3>AI Dungeon Escape</h3>
+                        <p>Solve AI-generated puzzles to escape a dungeon. Each room has unique challenges!</p>
+                        <div class="project-tech">
+                            <span>Python</span>
+                            <span>Streamlit</span>
+                            <span>Gemini API</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT SECTION ===== -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="contact-intro">
+                Interested in working together or just want to say hello?
+                Feel free to reach out!
+            </p>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">&#9993;</div>
+                    <h3>Email</h3>
+                    <p>your.email@example.com</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">&#128279;</div>
+                    <h3>GitHub</h3>
+                    <p>github.com/yourusername</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">&#128206;</div>
+                    <h3>LinkedIn</h3>
+                    <p>linkedin.com/in/yourprofile</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <p>Built with HTML & CSS by <strong>Your Name</strong></p>
+            <p class="footer-note">WorldWithWeb Student Project</p>
+        </div>
+    </footer>
+
+</body>
+</html>

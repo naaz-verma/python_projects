@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechFest 2025 - Annual Tech Conference</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">TechFest <span>2025</span></a>
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <label for="nav-toggle" class="nav-toggle-label">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#speakers">Speakers</a></li>
+                <li><a href="#schedule">Schedule</a></li>
+                <li><a href="#tickets">Tickets</a></li>
+                <li><a href="#register" class="nav-btn">Register Now</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-date">December 15-17, 2025</p>
+            <h1 class="hero-title">TechFest 2025</h1>
+            <h2 class="hero-subtitle">Where Innovation Meets Imagination</h2>
+            <p class="hero-description">
+                Join 500+ tech enthusiasts, developers, and creators for three days
+                of inspiring talks, hands-on workshops, and networking.
+            </p>
+            <div class="hero-buttons">
+                <a href="#register" class="btn btn-primary">Register Now</a>
+                <a href="#schedule" class="btn btn-ghost">View Schedule</a>
+            </div>
+            <div class="hero-countdown">
+                <div class="countdown-item">
+                    <span class="countdown-number">3</span>
+                    <span class="countdown-label">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number">20+</span>
+                    <span class="countdown-label">Speakers</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number">15+</span>
+                    <span class="countdown-label">Workshops</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number">500+</span>
+                    <span class="countdown-label">Attendees</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT SECTION ===== -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About The Event</h2>
+            <p class="section-subtitle">
+                TechFest is the annual technology conference that brings together
+                the brightest minds in tech. Whether you're a beginner or a pro,
+                there's something for everyone.
+            </p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">&#127891;</div>
+                    <h3>Learn</h3>
+                    <p>Hands-on workshops covering Python, AI, web development, cybersecurity, and more.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#129309;</div>
+                    <h3>Connect</h3>
+                    <p>Network with fellow developers, designers, and industry professionals.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#128161;</div>
+                    <h3>Innovate</h3>
+                    <p>Participate in hackathons and build real projects in just 48 hours.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#127942;</div>
+                    <h3>Compete</h3>
+                    <p>Join coding competitions with exciting prizes and recognition.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SPEAKERS SECTION ===== -->
+    <section id="speakers" class="speakers">
+        <div class="container">
+            <h2 class="section-title">Featured Speakers</h2>
+            <p class="section-subtitle">Learn from the best in the industry.</p>
+            <div class="speakers-grid">
+                <div class="speaker-card">
+                    <div class="speaker-avatar">
+                        <div class="speaker-placeholder">AK</div>
+                    </div>
+                    <h3>Aarav Kumar</h3>
+                    <p class="speaker-role">AI Researcher, Google</p>
+                    <p class="speaker-topic">&#128172; Building Responsible AI Systems</p>
+                </div>
+                <div class="speaker-card">
+                    <div class="speaker-avatar">
+                        <div class="speaker-placeholder">PM</div>
+                    </div>
+                    <h3>Priya Mehta</h3>
+                    <p class="speaker-role">CTO, StartupHub</p>
+                    <p class="speaker-topic">&#128172; From Idea to Product in 90 Days</p>
+                </div>
+                <div class="speaker-card">
+                    <div class="speaker-avatar">
+                        <div class="speaker-placeholder">RS</div>
+                    </div>
+                    <h3>Rohan Shah</h3>
+                    <p class="speaker-role">Security Expert, CyberShield</p>
+                    <p class="speaker-topic">&#128172; Cybersecurity for Beginners</p>
+                </div>
+                <div class="speaker-card">
+                    <div class="speaker-avatar">
+                        <div class="speaker-placeholder">NS</div>
+                    </div>
+                    <h3>Neha Singh</h3>
+                    <p class="speaker-role">Lead Developer, WebCraft</p>
+                    <p class="speaker-topic">&#128172; Modern CSS: Beyond Bootstrap</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SCHEDULE SECTION ===== -->
+    <section id="schedule" class="schedule">
+        <div class="container">
+            <h2 class="section-title">Event Schedule</h2>
+
+            <!-- Day tabs using CSS checkbox hack -->
+            <div class="schedule-tabs">
+                <input type="radio" name="day-tab" id="day1" class="tab-input" checked>
+                <label for="day1" class="tab-label">Day 1 - Dec 15</label>
+
+                <input type="radio" name="day-tab" id="day2" class="tab-input">
+                <label for="day2" class="tab-label">Day 2 - Dec 16</label>
+
+                <input type="radio" name="day-tab" id="day3" class="tab-input">
+                <label for="day3" class="tab-label">Day 3 - Dec 17</label>
+
+                <!-- Day 1 Content -->
+                <div class="tab-content" id="content-day1">
+                    <div class="schedule-item">
+                        <div class="schedule-time">9:00 AM</div>
+                        <div class="schedule-details">
+                            <h4>Registration & Welcome</h4>
+                            <p>Check-in, grab your badge, and enjoy some coffee.</p>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">10:00 AM</div>
+                        <div class="schedule-details">
+                            <h4>Keynote: The Future of AI</h4>
+                            <p>Aarav Kumar explores what's next in artificial intelligence.</p>
+                            <span class="schedule-tag">Keynote</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">11:30 AM</div>
+                        <div class="schedule-details">
+                            <h4>Workshop: Python for Data Science</h4>
+                            <p>Hands-on session with pandas, matplotlib, and real datasets.</p>
+                            <span class="schedule-tag">Workshop</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">2:00 PM</div>
+                        <div class="schedule-details">
+                            <h4>Panel: Women in Tech</h4>
+                            <p>Industry leaders share their journeys and advice.</p>
+                            <span class="schedule-tag">Panel</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">4:00 PM</div>
+                        <div class="schedule-details">
+                            <h4>Networking & Refreshments</h4>
+                            <p>Meet fellow attendees and speakers over snacks.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 2 Content -->
+                <div class="tab-content" id="content-day2">
+                    <div class="schedule-item">
+                        <div class="schedule-time">9:30 AM</div>
+                        <div class="schedule-details">
+                            <h4>Workshop: Build Your First Website</h4>
+                            <p>HTML, CSS, and responsive design from scratch.</p>
+                            <span class="schedule-tag">Workshop</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">11:00 AM</div>
+                        <div class="schedule-details">
+                            <h4>Talk: From Idea to Product</h4>
+                            <p>Priya Mehta on building startups with limited resources.</p>
+                            <span class="schedule-tag">Talk</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">1:30 PM</div>
+                        <div class="schedule-details">
+                            <h4>Hackathon Kickoff!</h4>
+                            <p>Form teams and start building your 48-hour project.</p>
+                            <span class="schedule-tag">Hackathon</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">3:00 PM</div>
+                        <div class="schedule-details">
+                            <h4>Workshop: Intro to Cybersecurity</h4>
+                            <p>Learn to think like a hacker (ethically!) with Rohan Shah.</p>
+                            <span class="schedule-tag">Workshop</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 3 Content -->
+                <div class="tab-content" id="content-day3">
+                    <div class="schedule-item">
+                        <div class="schedule-time">9:00 AM</div>
+                        <div class="schedule-details">
+                            <h4>Talk: Modern CSS Beyond Bootstrap</h4>
+                            <p>Neha Singh demos CSS Grid, Flexbox, and custom properties.</p>
+                            <span class="schedule-tag">Talk</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">11:00 AM</div>
+                        <div class="schedule-details">
+                            <h4>Hackathon Presentations</h4>
+                            <p>Teams present their projects to judges and audience.</p>
+                            <span class="schedule-tag">Hackathon</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">2:00 PM</div>
+                        <div class="schedule-details">
+                            <h4>Awards Ceremony</h4>
+                            <p>Prizes for best projects, coding competitions, and more.</p>
+                            <span class="schedule-tag">Ceremony</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">4:00 PM</div>
+                        <div class="schedule-details">
+                            <h4>Closing & Farewell</h4>
+                            <p>Wrap-up, group photo, and see you next year!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TICKETS SECTION ===== -->
+    <section id="tickets" class="tickets">
+        <div class="container">
+            <h2 class="section-title">Tickets</h2>
+            <p class="section-subtitle">Choose the pass that's right for you.</p>
+            <div class="tickets-grid">
+                <div class="ticket-card">
+                    <div class="ticket-header">
+                        <h3>Basic Pass</h3>
+                        <div class="ticket-price">
+                            <span class="price-currency">&#8377;</span>
+                            <span class="price-amount">499</span>
+                        </div>
+                    </div>
+                    <ul class="ticket-features">
+                        <li>&#10003; Access to all talks</li>
+                        <li>&#10003; Networking sessions</li>
+                        <li>&#10003; Event swag bag</li>
+                        <li class="disabled">&#10007; Workshop access</li>
+                        <li class="disabled">&#10007; Hackathon entry</li>
+                        <li class="disabled">&#10007; Certificate</li>
+                    </ul>
+                    <a href="#register" class="btn btn-outline-ticket">Get Basic Pass</a>
+                </div>
+
+                <div class="ticket-card ticket-featured">
+                    <div class="ticket-badge">Most Popular</div>
+                    <div class="ticket-header">
+                        <h3>Pro Pass</h3>
+                        <div class="ticket-price">
+                            <span class="price-currency">&#8377;</span>
+                            <span class="price-amount">999</span>
+                        </div>
+                    </div>
+                    <ul class="ticket-features">
+                        <li>&#10003; Access to all talks</li>
+                        <li>&#10003; Networking sessions</li>
+                        <li>&#10003; Event swag bag</li>
+                        <li>&#10003; All workshops included</li>
+                        <li>&#10003; Hackathon entry</li>
+                        <li class="disabled">&#10007; Certificate</li>
+                    </ul>
+                    <a href="#register" class="btn btn-primary-ticket">Get Pro Pass</a>
+                </div>
+
+                <div class="ticket-card">
+                    <div class="ticket-header">
+                        <h3>VIP Pass</h3>
+                        <div class="ticket-price">
+                            <span class="price-currency">&#8377;</span>
+                            <span class="price-amount">1999</span>
+                        </div>
+                    </div>
+                    <ul class="ticket-features">
+                        <li>&#10003; Access to all talks</li>
+                        <li>&#10003; Networking sessions</li>
+                        <li>&#10003; Premium swag bag</li>
+                        <li>&#10003; All workshops included</li>
+                        <li>&#10003; Hackathon entry</li>
+                        <li>&#10003; Certificate of completion</li>
+                    </ul>
+                    <a href="#register" class="btn btn-outline-ticket">Get VIP Pass</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== REGISTER / CTA SECTION ===== -->
+    <section id="register" class="register">
+        <div class="container">
+            <div class="register-content">
+                <h2>Ready to Join?</h2>
+                <p>Secure your spot at TechFest 2025. Limited seats available!</p>
+                <form class="register-form">
+                    <div class="form-row">
+                        <input type="text" placeholder="Full Name" class="form-input" required>
+                        <input type="email" placeholder="Email Address" class="form-input" required>
+                    </div>
+                    <div class="form-row">
+                        <select class="form-input">
+                            <option value="">Select Pass Type</option>
+                            <option value="basic">Basic Pass - &#8377;499</option>
+                            <option value="pro">Pro Pass - &#8377;999</option>
+                            <option value="vip">VIP Pass - &#8377;1999</option>
+                        </select>
+                        <input type="tel" placeholder="Phone Number" class="form-input">
+                    </div>
+                    <button type="submit" class="btn btn-register">Register Now</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== VENUE SECTION ===== -->
+    <section class="venue">
+        <div class="container">
+            <div class="venue-content">
+                <div class="venue-info">
+                    <h2>Venue</h2>
+                    <h3>Tech Convention Center</h3>
+                    <p>123 Innovation Road, Sector 62<br>Noida, UP 201301</p>
+                    <p class="venue-detail">&#128197; December 15-17, 2025</p>
+                    <p class="venue-detail">&#9200; 9:00 AM - 6:00 PM</p>
+                    <p class="venue-detail">&#128205; Free parking available</p>
+                </div>
+                <div class="venue-map">
+                    <div class="map-placeholder">
+                        <p>&#128506; Map</p>
+                        <p>Tech Convention Center<br>Sector 62, Noida</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>TechFest <span>2025</span></h3>
+                    <p>The biggest tech conference of the year. Three days of learning, building, and connecting.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#speakers">Speakers</a></li>
+                        <li><a href="#schedule">Schedule</a></li>
+                        <li><a href="#tickets">Tickets</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <p>&#9993; info@techfest2025.com</p>
+                    <p>&#128222; +91 98765 43210</p>
+                    <p>&#128205; Sector 62, Noida</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Built with HTML & CSS | WorldWithWeb Student Project</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
