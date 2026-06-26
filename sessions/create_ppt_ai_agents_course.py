@@ -812,7 +812,7 @@ def s12_course_structure(prs):
     """Course structure — 4 weeks / 16 sessions"""
     slide = _blank(prs)
     bg(slide)
-    title_block(slide, "Course Structure — 1 Month · 16 Hands-On Sessions")
+    title_block(slide, "Course Structure — 1 Month · 12 Hands-On Sessions")
 
     modules = [
         ("Week 1",
@@ -846,7 +846,7 @@ def s12_course_structure(prs):
         card(slide, content, Inches(4.8), y, Inches(8.13), mh,
              bg_c=CARD, fg=WHITE, size=12)
 
-    card(slide, "4 sessions/week · 1 month · Practical + project-based · Recorded sessions included",
+    card(slide, "3 sessions/week · 1 month · Practical + project-based · Recorded sessions included",
          Inches(0.4), Inches(6.65), Inches(12.33), Inches(0.55),
          bg_c=SURFACE, fg=GRAY, size=14)
 
@@ -1058,13 +1058,13 @@ def s16_batch_details(prs):
     title_block(slide, "Batch Details — AI Automation & Agentic AI")
 
     details = [
-        ("Duration",       "1 Month · 16 Hands-On Sessions",                          CYAN),
+        ("Duration",       "1 Month · 12 Hands-On Sessions",                          CYAN),
         ("Fee",            "Rs. 10,000",                                              GREEN),
         ("Level",          "Beginner to Job-Ready",                                   WHITE),
         ("Mode",           "Practical + Project-Based · Recorded sessions included",  WHITE),
         ("Batch Size",     "Limited seats per batch for personal attention",           ORANGE),
         ("Prerequisites",  "Basic computer skills · No coding required",              WHITE),
-        ("Tools",          "n8n · Google Sheets · Gmail · WhatsApp · Telegram · OpenAI / Gemini / Claude · AI Agent node", WHITE),
+        ("Tools",          "n8n · OpenAI / Gemini / Claude · WhatsApp · Telegram · Google Workspace · AI Agent node · Webhooks & APIs", WHITE),
         ("Outcome",        "4 sector builds + your own capstone",                     GREEN),
         ("Certification",  "WorldWithWeb Course Certificate",                         WHITE),
         ("Batch Start",    "[DATE — confirm before session]",                         YELLOW),
